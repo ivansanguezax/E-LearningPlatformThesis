@@ -5,6 +5,7 @@ export const app = express();
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { ErrorMiddleware } from './middleware/error';
+import userRouter from './routes/user.route';
 
 // Configuración del middleware para parsear el cuerpo de las solicitudes en formato JSON con un límite de 50 MB
 app.use(express.json({ limit: '50mb' }));
@@ -17,6 +18,9 @@ app.use(cors({
     origin: process.env.ORIGIN,
     credentials: true
 }));
+
+// Rutas de la API
+app.use("/api/v1",userRouter)
 
 // Ruta de prueba para verificar si la API está funcionando correctamente
 app.get('/test', (req: Request, res: Response, next: NextFunction) => {
