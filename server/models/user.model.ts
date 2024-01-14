@@ -1,6 +1,10 @@
-// Importaciones necesarias de Mongoose y bcrypt
+// Importa la librería dotenv para cargar variables de entorno desde el archivo .env
+require("dotenv").config();
+
+// Importaciones necesarias de Mongoose, jwt y bcrypt
 import mongoose, { Document, Model, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 // Expresión regular para validar direcciones de correo electrónico
 const emailRegex: RegExp = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
@@ -18,6 +22,8 @@ export interface IUser extends Document {
   isVerified: boolean;
   courses: Array<{ courseId: string }>;
   comparePassword: (password: string) => Promise<boolean>;
+  signAccessToken: () => string;
+  signRefreshToken: () => string;
 }
 
 // Definición del esquema de usuario con validaciones y opciones
@@ -81,6 +87,18 @@ userSchema.pre<IUser>("save", async function (next) {
 
   this.password = await bcrypt.hash(this.password, 10);
 });
+
+
+// Método para generar un token JWT de acceso
+userSchema.methods.signAccessToken = function () {
+  return jwt.sign({id:this._id}, process.env.ACCESS_TOKEN || '');
+};
+
+// Método para generar un token JWT de actualización
+userSchema.methods.signRefreshToken = function () {
+  return jwt.sign({id:this._id}, process.env.REFRESH_TOKEN || '');
+}
+
 
 // Método para comparar contraseñas utilizando bcrypt
 userSchema.methods.comparePassword = async function (enteredPassword: string) {

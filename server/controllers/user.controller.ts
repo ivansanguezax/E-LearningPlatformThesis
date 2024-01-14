@@ -10,6 +10,7 @@ import jwt, { Secret } from "jsonwebtoken";
 import ejs from "ejs";
 import path from "path";
 import sendMail from "../utils/sendMail";
+import { sendToken } from "../utils/jwt";
 
 // Interfaz para los datos del cuerpo de la solicitud de registro
 interface IRegistrationBody {
@@ -155,6 +156,68 @@ export const activateUser = CatchAsyncError(async (req: Request, res: Response, 
     });
   } catch (error: any) {
     // Manejo de errores en caso de fallo durante la activación del usuario
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
+/**
+ * Interfaz para la solicitud de inicio de sesión que se espera en el cuerpo de la solicitud HTTP.
+ */
+interface ILoginRequest {
+  email: string;
+  password: string;
+}
+
+export const loginUser = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // Extrae las propiedades de la solicitud de inicio de sesión
+    const { email, password } = req.body as ILoginRequest;
+
+    // Verifica si se proporcionaron tanto el correo electrónico como la contraseña
+    if (!email || !password) {
+      return next(new ErrorHandler(400, "Por favor ingrese su correo electrónico y contraseña"));
+    }
+
+    // Busca al usuario en la base de datos por su correo electrónico y recupera la contraseña
+    const user = await UserModel.findOne({ email }).select("+password");
+
+    // Verifica si se encontró al usuario
+    if (!user) {
+      return next(new ErrorHandler(401, "Credenciales inválidas"));
+    }
+
+    // Compara la contraseña proporcionada con la contraseña almacenada en la base de datos
+    const isPasswordMatched = await user.comparePassword(password);
+
+    // Verifica si las contraseñas coinciden
+    if (!isPasswordMatched) {
+      return next(new ErrorHandler(401, "Credenciales inválidas"));
+    }
+
+    // Envía el token al cliente y responde con éxito
+    sendToken(user, 200, res);
+
+  } catch (error: any) {
+    // Manejo de errores en caso de fallo durante el inicio de sesión
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
+//Controlador para cerrar la sesión de un usuario.
+export const logoutUser = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // Borra las cookies de acceso y actualización para cerrar la sesión
+    res.cookie("accessToken", "", { maxAge: 1 });
+    res.cookie("refreshToken", "", { maxAge: 1 });
+
+    // Respuesta exitosa
+    res.status(200).json({
+      success: true,
+      message: "Desconectado con éxito",
+    });
+
+  } catch (error: any) {
+    // Manejo de errores en caso de fallo durante la desconexión
     return next(new ErrorHandler(error.message, 500));
   }
 });
