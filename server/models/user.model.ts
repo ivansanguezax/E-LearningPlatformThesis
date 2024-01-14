@@ -10,9 +10,9 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
-  avatar: {
-    public_id: string;
-    url: string;
+  avatar?: {
+    public_id?: string;
+    url?: string;
   };
   role: string;
   isVerified: boolean;
@@ -46,14 +46,14 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
       select: false,
     },
     avatar: {
-      public_id: {
-        type: String,
-        required: true,
-      },
-      url: {
-        type: String,
-        required: true,
-      },
+        public_id: {
+          type: String,
+          required: false, // Hacerlo opcional
+        },
+        url: {
+          type: String,
+          required: false, // Hacerlo opcional
+        },
     },
     role: {
       type: String,

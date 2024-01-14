@@ -3,7 +3,7 @@ require("dotenv").config();
 
 // Importa las librerías express, ejs, path y jsonwebtoken
 import { Request, Response, NextFunction } from "express";
-import UserModel from "../models/user.model";
+import UserModel, { IUser } from "../models/user.model";
 import ErrorHandler from "../utils/errorHandler";
 import { CatchAsyncError } from "../middleware/catchAsyncError";
 import jwt, { Secret } from "jsonwebtoken";
@@ -107,3 +107,54 @@ export const createActivationToken = (user: any): IActivationToken => {
   );
   return { token, activationCode };
 };
+
+
+/**
+ * Interfaz para la solicitud de activación que se espera en el cuerpo de la solicitud HTTP.
+ */
+interface IActivationRequest {
+  activation_token: string;
+  activation_code: string;
+}
+export const activateUser = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // Extrae las propiedades de la solicitud de activación
+    const { activation_token, activation_code } = req.body as IActivationRequest;
+
+    // Verifica el token de activación y obtiene los datos del usuario y el código de activación
+    const newUser: { user: IUser; activationCode: string } = jwt.verify(
+      activation_token,
+      process.env.ACTIVATION_SECRET as string
+    ) as { user: IUser; activationCode: string };
+
+    // Compara el código de activación proporcionado con el código del token
+    if (newUser.activationCode !== activation_code) {
+      return next(new ErrorHandler(400, "Código de activación incorrecto"));
+    }
+
+    // Extrae datos del usuario
+    const { name, email, password } = newUser.user;
+
+    // Verifica si el correo electrónico ya está registrado en la base de datos
+    const existingUser = await UserModel.findOne({ email });
+    if (existingUser) {
+      return next(new ErrorHandler(400, "El correo electrónico ya está registrado"));
+    }
+
+    // Crea un nuevo usuario en la base de datos
+    const user = await UserModel.create({
+      name,
+      email,
+      password,
+    });
+
+    // Respuesta exitosa
+    res.status(201).json({
+      success: true,
+      message: "Cuenta activada con éxito",
+    });
+  } catch (error: any) {
+    // Manejo de errores en caso de fallo durante la activación del usuario
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
