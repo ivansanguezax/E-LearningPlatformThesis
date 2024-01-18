@@ -11,6 +11,7 @@ import ejs from "ejs";
 import path from "path";
 import sendMail from "../utils/sendMail";
 import { sendToken } from "../utils/jwt";
+import { redis } from "../utils/redis";
 
 // Interfaz para los datos del cuerpo de la solicitud de registro
 interface IRegistrationBody {
@@ -209,6 +210,8 @@ export const logoutUser = CatchAsyncError(async (req: Request, res: Response, ne
     // Borra las cookies de acceso y actualización para cerrar la sesión
     res.cookie("accessToken", "", { maxAge: 1 });
     res.cookie("refreshToken", "", { maxAge: 1 });
+    const userId = req.user?._id || '';
+    redis.del(userId)
 
     // Respuesta exitosa
     res.status(200).json({

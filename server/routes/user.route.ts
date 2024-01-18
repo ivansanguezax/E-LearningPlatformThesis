@@ -3,6 +3,7 @@ import express from 'express';
 
 // Importa la función de controlador para el registro de usuarios
 import { activateUser, registerUser, loginUser, logoutUser } from '../controllers/user.controller';
+import { isAutheticated } from '../middleware/auth';
 
 // Crea un enrutador utilizando express.Router()
 const userRouter = express.Router();
@@ -17,7 +18,7 @@ userRouter.post('/activate-user', activateUser);
 userRouter.post('/login', loginUser);
 
 // Define una ruta para manejar las solicitudes POST relacionadas con el logout de usuarios
-userRouter.get('/logout', logoutUser);
+userRouter.get('/logout',isAutheticated, logoutUser);
 
 
 // Exporta el enrutador para su uso en otros módulos
