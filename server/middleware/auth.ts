@@ -10,52 +10,27 @@ import { redis } from "../utils/redis";
 
 export const isAuthenticated = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      // Imprime el encabezado de autorización para depuración
-      console.log(req.headers.authorization);
+    const access_token = req.cookies.access_token as string;
 
-      // Obtiene el token de acceso del encabezado de autorización
-      const access_token = req.headers.authorization;
-
-      // Verifica si el token de acceso está presente
-      if (!access_token) {
-        return next(
-          new ErrorHandler(400, "No estás autorizado para acceder a esta ruta")
-        );
-      }
-
-      // Verifica la validez del token de acceso utilizando la clave secreta
-      const decoded = jwt.verify(
-        access_token,
-        process.env.ACCESS_TOKEN as string
-      ) as JwtPayload;
-
-      // Verifica si el token se decodificó correctamente
-      if (!decoded) {
-        return next(
-          new ErrorHandler(400, "No estás autorizado para acceder a esta ruta")
-        );
-      }
-
-      // Recupera los datos del usuario desde la caché (por ejemplo, Redis)
-      const user = await redis.get(decoded.id);
-
-      // Verifica si el usuario existe en la caché
-      if (!user) {
-        return next(new ErrorHandler(400, "Usuario no encontrado"));
-      }
-
-      // Asigna los datos del usuario a la solicitud para su uso posterior
-      req.user = JSON.parse(user);
-
-      // Pasa la solicitud al siguiente middleware
-      next();
-    } catch (error: any) {
-      // Captura y maneja errores de autenticación
-      return next(
-        new ErrorHandler(500, `Error de autenticación: ${error.message}`)
-      );
+    if(!access_token) {
+      return next(new ErrorHandler(401, 'No autorizado'));
     }
+
+    const decoded = jwt.verify(access_token, process.env.ACCESS_TOKEN as string) as JwtPayload;
+
+    if(!decoded) {
+      return next(new ErrorHandler(401, 'Token no válido'));
+    }
+
+    const user = await redis.get(decoded.id as string);
+
+    if(!user) {
+      return next(new ErrorHandler(401, 'usuario no encontrado'));
+    }
+
+    req.user = JSON.parse(user);
+    next();
+ 
   }
 );
 

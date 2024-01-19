@@ -7,8 +7,12 @@ import {
   registerUser,
   loginUser,
   logoutUser,
+  updateAccessToken,
+  getUserInfo,
+  socialAuth
 } from "../controllers/user.controller";
 import { isAuthenticated } from "../middleware/auth";
+
 
 // Crea un enrutador utilizando express.Router()
 const userRouter = express.Router();
@@ -24,6 +28,16 @@ userRouter.post("/login", loginUser);
 
 // Define una ruta para manejar las solicitudes POST relacionadas con el logout de usuarios
 userRouter.get("/logout", isAuthenticated, logoutUser);
+
+// Define una ruta para refrescar el token de acceso
+
+userRouter.get("/refresh", updateAccessToken)
+
+// Define una ruta para tomar la información del usuario
+userRouter.get("/me",isAuthenticated, getUserInfo);
+
+// Define una ruta para Social Login
+userRouter.post("/social-auth", socialAuth);
 
 // Exporta el enrutador para su uso en otros módulos
 export default userRouter;

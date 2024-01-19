@@ -47,7 +47,6 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "Please enter your password"],
       minLength: [6, "Your password must be longer than 6 characters"],
       select: false,
     },
@@ -91,12 +90,16 @@ userSchema.pre<IUser>("save", async function (next) {
 
 // Método para generar un token JWT de acceso
 userSchema.methods.signAccessToken = function () {
-  return jwt.sign({id:this._id}, process.env.ACCESS_TOKEN || '');
+  return jwt.sign({id:this._id}, process.env.ACCESS_TOKEN || '', {
+    expiresIn: "5m",
+  });
 };
 
 // Método para generar un token JWT de actualización
 userSchema.methods.signRefreshToken = function () {
-  return jwt.sign({id:this._id}, process.env.REFRESH_TOKEN || '');
+  return jwt.sign({id:this._id}, process.env.REFRESH_TOKEN || '',{
+    expiresIn: "3d",
+  });
 }
 
 
