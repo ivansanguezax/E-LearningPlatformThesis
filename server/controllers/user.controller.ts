@@ -17,6 +17,7 @@ import {
 } from "../utils/jwt";
 import { redis } from "../utils/redis";
 import { getUserById } from "../services/user.service";
+import cloudinary from "cloudinary";
 
 // Interfaz para los datos del cuerpo de la solicitud de registro
 interface IRegistrationBody {
@@ -287,6 +288,8 @@ export const updateAccessToken = CatchAsyncError(
         { expiresIn: "3d" }
       );
 
+      req.user = user;
+
       // Establece las cookies de acceso y actualización en la respuesta
       res.cookie("access_token", accessToken, accessTokenOptions);
       res.cookie("refresh_token", refreshToken, refreshTokenOptions);
@@ -327,7 +330,6 @@ export const getUserInfo = CatchAsyncError(
   }
 );
 
-
 // Define la interfaz para el cuerpo de la solicitud de autenticación social
 interface ISocialAuthBody {
   email: string;
@@ -362,3 +364,163 @@ export const socialAuth = CatchAsyncError(
     }
   }
 );
+
+// Definición de una interfaz para el cuerpo de la solicitud de actualización de usuario
+interface IUpdateUserBody {
+  name?: string;
+  email?: string;
+}
+
+// Función para actualizar la información del usuario
+export const updateUserInfo = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { name, email } = req.body as IUpdateUserBody;
+      const userId = req.user?._id;
+
+      // Buscar y obtener el usuario por su ID
+      const user = await UserModel.findById(userId);
+
+      // Validar y actualizar el correo electrónico del usuario si se proporciona
+      if (email && user) {
+        const isEmailExist = await UserModel.findOne({ email });
+        if (isEmailExist) {
+          return next(new ErrorHandler(400, "Email ya registrado"));
+        }
+        user.email = email;
+      }
+
+      // Actualizar el nombre del usuario si se proporciona
+      if (name && user) {
+        user.name = name;
+      }
+
+      // Guardar los cambios en la base de datos
+      await user?.save();
+
+      // Actualizar la información del usuario en la caché (ejemplo usando Redis)
+      await redis.set(userId, JSON.stringify(user));
+
+      // Enviar una respuesta con éxito
+      res.status(200).json({
+        success: true,
+        user,
+        message: "Información actualizada con éxito",
+      });
+    } catch (error: any) {
+      // Manejo de errores en caso de fallo durante la autenticación social
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
+
+// Definición de una interfaz para la solicitud de actualización de contraseña
+interface IUpdatePassword {
+  oldPassword: string;
+  newPassword: string;
+}
+
+// Función para actualizar la contraseña del usuario
+export const updatePassword = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { oldPassword, newPassword } = req.body as IUpdatePassword;
+
+      // Validar la presencia de la contraseña antigua y nueva
+      if (!oldPassword || !newPassword) {
+        return next(
+          new ErrorHandler(
+            400,
+            "Por favor ingrese su contraseña antigua y nueva"
+          )
+        );
+      }
+
+      // Obtener el usuario por su ID y seleccionar la contraseña
+      const user = await UserModel.findById(req.user?._id).select("+password");
+
+      // Manejar el caso en que el usuario no se encuentra
+      if (user?.password === undefined) {
+        return next(new ErrorHandler(400, "Usuario no encontrado"));
+      }
+
+      // Verificar si la contraseña antigua coincide
+      const isPasswordMatch = await user?.comparePassword(oldPassword);
+
+      // Manejar el caso en que la contraseña antigua no coincide
+      if (!isPasswordMatch) {
+        return next(new ErrorHandler(400, "Contraseña antigua incorrecta"));
+      }
+
+      // Actualizar la contraseña y guardar los cambios en la base de datos
+      user.password = newPassword;
+      await user.save();
+
+      // Actualizar la información del usuario en la caché (ejemplo usando Redis)
+      await redis.set(req.user?._id, JSON.stringify(user));
+
+      // Enviar una respuesta con éxito
+      res.status(201).json({
+        success: true,
+        message: "Contraseña actualizada con éxito",
+      });
+    } catch (error: any) {
+      // Manejo de errores en caso de fallo durante la autenticación social
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
+
+// Definición de una interfaz para la solicitud de actualización de avatar
+interface IUpdateAvatar {
+  avatar: string;
+}
+
+// Función para actualizar la imagen de perfil del usuario
+export const updateProfilePicture = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { avatar } = req.body;
+
+      const userId = req.user?._id;
+
+      // Obtener el usuario por su ID
+      const user = await UserModel.findById(userId);
+
+      // Validar y procesar la actualización de la imagen de avatar
+      if (avatar && user) {
+        // Verificar si el usuario ya tiene un avatar y eliminar la imagen anterior
+        if (user?.avatar?.public_id) {
+          await cloudinary.v2.uploader.destroy(user?.avatar?.public_id);
+        }
+
+        // Subir la nueva imagen a Cloudinary y actualizar la información del avatar
+        const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+          folder: "avatars",
+          width: 150,
+        });
+        user.avatar = {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        };
+      }
+
+      // Guardar los cambios en la base de datos
+      await user?.save();
+
+      // Actualizar la información del usuario en la caché (ejemplo usando Redis)
+      await redis.set(userId, JSON.stringify(user));
+
+      // Enviar una respuesta con éxito
+      res.status(200).json({
+        success: true,
+        user,
+        message: "Avatar actualizado con éxito",
+      });
+    } catch (error: any) {
+      // Manejo de errores en caso de fallo durante la autenticación social
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
+

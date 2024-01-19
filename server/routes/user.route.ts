@@ -9,10 +9,12 @@ import {
   logoutUser,
   updateAccessToken,
   getUserInfo,
-  socialAuth
+  socialAuth,
+  updateUserInfo,
+  updatePassword,
+  updateProfilePicture,
 } from "../controllers/user.controller";
 import { isAuthenticated } from "../middleware/auth";
-
 
 // Crea un enrutador utilizando express.Router()
 const userRouter = express.Router();
@@ -31,13 +33,22 @@ userRouter.get("/logout", isAuthenticated, logoutUser);
 
 // Define una ruta para refrescar el token de acceso
 
-userRouter.get("/refresh", updateAccessToken)
+userRouter.get("/refresh", updateAccessToken);
 
 // Define una ruta para tomar la información del usuario
-userRouter.get("/me",isAuthenticated, getUserInfo);
+userRouter.get("/me", isAuthenticated, getUserInfo);
 
 // Define una ruta para Social Login
 userRouter.post("/social-auth", socialAuth);
+
+// Define una ruta para actualizar la información del usuario
+userRouter.put("/update-user-info", isAuthenticated, updateUserInfo);
+
+// Define una ruta para actualiza la contraseña del usuario
+userRouter.put("/update-user-password", isAuthenticated, updatePassword);
+
+// Define una ruta para actualizar el avatar del usuario
+userRouter.put("/update-user-avatar", isAuthenticated, updateProfilePicture);
 
 // Exporta el enrutador para su uso en otros módulos
 export default userRouter;
