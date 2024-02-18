@@ -7,66 +7,58 @@ import { CatchAsyncError } from "./catchAsyncError";
 import ErrorHandler from "../utils/errorHandler";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { redis } from "../utils/redis";
+import { updateAccessToken } from "../controllers/user.controller";
 
-// Definición de la función middleware para verificar la autenticación del usuario
-export const isAuthenticated = CatchAsyncError(
+export const isAutheticated = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    // Obtiene el token de acceso almacenado en las cookies de la solicitud
     const access_token = req.cookies.access_token as string;
 
-    // Verifica si el token de acceso está presente en las cookies
     if (!access_token) {
-      // Si no está presente, devuelve un error de no autorizado con código 401
-      return next(new ErrorHandler(401, 'No autorizado'));
+      return next(
+        new ErrorHandler("Please login to access this resource", 400)
+      );
     }
 
-    // Verifica y decodifica el token de acceso utilizando la clave secreta del servidor
-    const decoded = jwt.verify(access_token, process.env.ACCESS_TOKEN as string) as JwtPayload;
+    const decoded = jwt.decode(access_token) as JwtPayload;
 
-    // Verifica si la decodificación del token de acceso fue exitosa
     if (!decoded) {
-      // Si la decodificación falla, devuelve un error de token no válido con código 401
-      return next(new ErrorHandler(401, 'Token no válido'));
+      return next(new ErrorHandler("access token is not valid", 400));
     }
 
-    // Obtiene la información del usuario desde la base de datos (Redis) utilizando el ID del usuario
-    const user = await redis.get(decoded.id as string);
+    // check if the access token is expired
+    if (decoded.exp && decoded.exp <= Date.now() / 1000) {
+      try {
+        await updateAccessToken(req, res, next);
+      } catch (error) {
+        return next(error);
+      }
+    } else {
+      const user = await redis.get(decoded.id);
 
-    // Verifica si el usuario existe en la base de datos
-    if (!user) {
-      // Si el usuario no existe, devuelve un error de usuario no encontrado con código 401
-      return next(new ErrorHandler(401, 'Usuario no encontrado'));
+      if (!user) {
+        return next(
+          new ErrorHandler("Please login to access this resource", 400)
+        );
+      }
+
+      req.user = JSON.parse(user);
+
+      next();
     }
-
-    // Almacena la información del usuario en la propiedad user del objeto de solicitud
-    req.user = JSON.parse(user);
-
-    // Continúa con la ejecución del siguiente middleware
-    next();
   }
 );
 
-/**
- * Middleware de autorización para verificar si el usuario tiene roles permitidos.
- *
- * @param {...string[]} roles - Roles permitidos para acceder a la ruta.
- * @returns {(req: Request, res: Response, next: NextFunction) => void}
- *
- * @throws {ErrorHandler} - Devuelve un error si el usuario no tiene los roles permitidos.
- */
-
+// validate user role
 export const authorizeRoles = (...roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    // Verifica si el rol del usuario está permitido
     if (!roles.includes(req.user?.role || "")) {
       return next(
         new ErrorHandler(
-          403,
-          `Rol (${req.user?.role}) no permitido para acceder a esta ruta`
+          `Role: ${req.user?.role} is not allowed to access this resource`,
+          403
         )
       );
     }
-    // Pasa la solicitud al siguiente middleware
     next();
   };
 };

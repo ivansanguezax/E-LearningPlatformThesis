@@ -3,7 +3,7 @@ require("dotenv").config();
 
 // Importa las librerías express, ejs, path y jsonwebtoken
 import { Request, Response, NextFunction } from "express";
-import UserModel, { IUser } from "../models/user.model";
+import userModel, { IUser } from "../models/user.model";
 import ErrorHandler from "../utils/errorHandler";
 import { CatchAsyncError } from "../middleware/catchAsyncError";
 import jwt, { Secret, JwtPayload } from "jsonwebtoken";
@@ -19,7 +19,6 @@ import { redis } from "../utils/redis";
 import { getUserById } from "../services/user.service";
 import cloudinary from "cloudinary";
 
-// Interfaz para los datos del cuerpo de la solicitud de registro
 interface IRegistrationBody {
   name: string;
   email: string;
@@ -27,82 +26,62 @@ interface IRegistrationBody {
   avatar?: string;
 }
 
-// Controlador para el registro de usuarios con manejo de errores asíncrono
-export const registerUser = CatchAsyncError(
+export const registrationUser = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // Extrae los datos del cuerpo de la solicitud
       const { name, email, password } = req.body;
 
-      // Verifica si el correo electrónico ya está registrado en la base de datos
-      const isEmailExist = await UserModel.findOne({ email });
+      const isEmailExist = await userModel.findOne({ email });
       if (isEmailExist) {
-        return next(new ErrorHandler(400, "Email ya registrado"));
+        return next(new ErrorHandler("Email already exist", 400));
       }
 
-      // Crea un objeto con los datos del usuario
       const user: IRegistrationBody = {
         name,
         email,
         password,
       };
 
-      // Crea un token de activación
       const activationToken = createActivationToken(user);
 
-      // Extrae el código de activación del token
       const activationCode = activationToken.activationCode;
 
-      // Datos a ser enviados en el correo electrónico
-      const data = {
-        user: { name: user.name },
-        activationCode: activationCode,
-      };
-
-      // Renderiza el contenido HTML del correo electrónico utilizando EJS
+      const data = { user: { name: user.name }, activationCode };
       const html = await ejs.renderFile(
         path.join(__dirname, "../mails/activation-mail.ejs"),
         data
       );
 
       try {
-        // Envía el correo electrónico con el token de activación
         await sendMail({
           email: user.email,
-          subject: "Activación de cuenta",
+          subject: "Activate your account",
           template: "activation-mail.ejs",
           data,
         });
 
-        // Respuesta exitosa
         res.status(201).json({
           success: true,
-          message: `Se ha enviado un correo de activación a ${user.email}`,
+          message: `Please check your email: ${user.email} to activate your account!`,
           activationToken: activationToken.token,
         });
       } catch (error: any) {
-        // Manejo de errores en caso de fallo al enviar el correo electrónico
-        return next(new ErrorHandler(error.message, 500));
+        return next(new ErrorHandler(error.message, 400));
       }
     } catch (error: any) {
-      // Manejo de errores generales
-      return next(new ErrorHandler(error.message, 500));
+      return next(new ErrorHandler(error.message, 400));
     }
   }
 );
 
-// Interfaz para el objeto de token de activación
 interface IActivationToken {
   token: string;
   activationCode: string;
 }
 
-// Función para crear un token de activación
 export const createActivationToken = (user: any): IActivationToken => {
-  // Genera un código de activación aleatorio
-  const activationCode = Math.floor(100000 + Math.random() * 900000).toString();
+  const activationCode = Math.floor(1000 + Math.random() * 9000).toString();
 
-  // Crea un token JWT con el usuario y el código de activación
   const token = jwt.sign(
     {
       user,
@@ -113,67 +92,54 @@ export const createActivationToken = (user: any): IActivationToken => {
       expiresIn: "5m",
     }
   );
+
   return { token, activationCode };
 };
 
-/**
- * Interfaz para la solicitud de activación que se espera en el cuerpo de la solicitud HTTP.
- */
+// activate user
 interface IActivationRequest {
   activation_token: string;
   activation_code: string;
 }
+
 export const activateUser = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // Extrae las propiedades de la solicitud de activación
       const { activation_token, activation_code } =
         req.body as IActivationRequest;
 
-      // Verifica el token de activación y obtiene los datos del usuario y el código de activación
       const newUser: { user: IUser; activationCode: string } = jwt.verify(
         activation_token,
         process.env.ACTIVATION_SECRET as string
       ) as { user: IUser; activationCode: string };
 
-      // Compara el código de activación proporcionado con el código del token
       if (newUser.activationCode !== activation_code) {
-        return next(new ErrorHandler(400, "Código de activación incorrecto"));
+        return next(new ErrorHandler("Invalid activation code", 400));
       }
 
-      // Extrae datos del usuario
       const { name, email, password } = newUser.user;
 
-      // Verifica si el correo electrónico ya está registrado en la base de datos
-      const existingUser = await UserModel.findOne({ email });
-      if (existingUser) {
-        return next(
-          new ErrorHandler(400, "El correo electrónico ya está registrado")
-        );
-      }
+      const existUser = await userModel.findOne({ email });
 
-      // Crea un nuevo usuario en la base de datos
-      const user = await UserModel.create({
+      if (existUser) {
+        return next(new ErrorHandler("Email already exist", 400));
+      }
+      const user = await userModel.create({
         name,
         email,
         password,
       });
 
-      // Respuesta exitosa
       res.status(201).json({
         success: true,
-        message: "Cuenta activada con éxito",
       });
     } catch (error: any) {
-      // Manejo de errores en caso de fallo durante la activación del usuario
-      return next(new ErrorHandler(error.message, 500));
+      return next(new ErrorHandler(error.message, 400));
     }
   }
 );
 
-/**
- * Interfaz para la solicitud de inicio de sesión que se espera en el cuerpo de la solicitud HTTP.
- */
+// Login user
 interface ILoginRequest {
   email: string;
   password: string;
@@ -181,345 +147,265 @@ interface ILoginRequest {
 
 export const loginUser = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
+    console.log("loginuser");
     try {
-      // Extrae las propiedades de la solicitud de inicio de sesión
       const { email, password } = req.body as ILoginRequest;
 
-      // Verifica si se proporcionaron tanto el correo electrónico como la contraseña
       if (!email || !password) {
-        return next(
-          new ErrorHandler(
-            400,
-            "Por favor ingrese su correo electrónico y contraseña"
-          )
-        );
+        return next(new ErrorHandler("Please enter email and password", 400));
       }
 
-      // Busca al usuario en la base de datos por su correo electrónico y recupera la contraseña
-      const user = await UserModel.findOne({ email }).select("+password");
+      const user = await userModel.findOne({ email }).select("+password");
 
-      // Verifica si se encontró al usuario
       if (!user) {
-        return next(new ErrorHandler(401, "Credenciales inválidas"));
+        return next(new ErrorHandler("Invalid email or password", 400));
       }
 
-      // Compara la contraseña proporcionada con la contraseña almacenada en la base de datos
-      const isPasswordMatched = await user.comparePassword(password);
-
-      // Verifica si las contraseñas coinciden
-      if (!isPasswordMatched) {
-        return next(new ErrorHandler(401, "Credenciales inválidas"));
+      const isPasswordMatch = await user.comparePassword(password);
+      if (!isPasswordMatch) {
+        return next(new ErrorHandler("Invalid email or password", 400));
       }
-
-      // Envía el token al cliente y responde con éxito
+      console.log("dhhdh", user);
       sendToken(user, 200, res);
     } catch (error: any) {
-      // Manejo de errores en caso de fallo durante el inicio de sesión
-      return next(new ErrorHandler(error.message, 500));
+      return next(new ErrorHandler(error.message, 400));
     }
   }
 );
 
-//Controlador para cerrar la sesión de un usuario.
+// logout user
 export const logoutUser = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // Borra las cookies de acceso y actualización para cerrar la sesión
       res.cookie("access_token", "", { maxAge: 1 });
       res.cookie("refresh_token", "", { maxAge: 1 });
       const userId = req.user?._id || "";
       redis.del(userId);
-
-      // Respuesta exitosa
       res.status(200).json({
         success: true,
-        message: "Desconectado con éxito",
+        message: "Logged out successfully",
       });
     } catch (error: any) {
-      // Manejo de errores en caso de fallo durante la desconexión
-      return next(new ErrorHandler(error.message, 500));
+      return next(new ErrorHandler(error.message, 400));
     }
   }
 );
 
-// Definición de la función middleware para actualizar el token de acceso
+// update access token
 export const updateAccessToken = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // Obtiene el token de actualización almacenado en las cookies de la solicitud
       const refresh_token = req.cookies.refresh_token as string;
-
-      // Verifica y decodifica el token de actualización utilizando la clave secreta del servidor
       const decoded = jwt.verify(
         refresh_token,
         process.env.REFRESH_TOKEN as string
       ) as JwtPayload;
 
-      // Mensaje de error estándar en caso de que la verificación del token de actualización falle
-      const message = "No se puede actualizar el token de acceso";
-
-      // Verifica si la decodificación del token de actualización fue exitosa
+      const message = "Could not refresh token";
       if (!decoded) {
-        return next(new ErrorHandler(400, message));
+        return next(new ErrorHandler(message, 400));
       }
-
-      // Obtiene la sesión del usuario a partir del ID almacenado en el token de actualización
       const session = await redis.get(decoded.id as string);
 
-      // Verifica si la sesión existe en la base de datos (Redis)
       if (!session) {
-        return next(new ErrorHandler(400, message));
+        return next(
+          new ErrorHandler("Please login for access this resources!", 400)
+        );
       }
 
-      // Convierte la sesión de usuario de formato JSON a un objeto JavaScript
       const user = JSON.parse(session);
 
-      // Genera un nuevo token de acceso utilizando el ID del usuario y la clave secreta del servidor
       const accessToken = jwt.sign(
         { id: user._id },
         process.env.ACCESS_TOKEN as string,
-        { expiresIn: "5m" }
+        {
+          expiresIn: "5m",
+        }
       );
 
-      // Genera un nuevo token de actualización con una vigencia de 3 días
       const refreshToken = jwt.sign(
         { id: user._id },
         process.env.REFRESH_TOKEN as string,
-        { expiresIn: "3d" }
+        {
+          expiresIn: "3d",
+        }
       );
 
       req.user = user;
 
-      // Establece las cookies de acceso y actualización en la respuesta
       res.cookie("access_token", accessToken, accessTokenOptions);
       res.cookie("refresh_token", refreshToken, refreshTokenOptions);
 
-      // Responde con un código 200 y el nuevo token de acceso en formato JSON
-      res.status(200).json({
-        status: "success",
-        accessToken,
-      });
+      await redis.set(user._id, JSON.stringify(user), "EX", 604800); // 7days
+
+      return next();
     } catch (error: any) {
-      // Manejo de errores en caso de fallo durante la actualización del token de acceso
-      return next(new ErrorHandler(error.message, 500));
+      return next(new ErrorHandler(error.message, 400));
     }
   }
 );
 
-// Get user info
-
-// Definición de la función middleware para obtener información del usuario
+// get user info
 export const getUserInfo = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // Imprime un mensaje en la consola indicando que se está utilizando esta función
-      console.log("usando esta funcion");
-
-      // Obtiene el ID del usuario de la propiedad user en el objeto de solicitud (si está presente)
       const userId = req.user?._id;
-
-      // Imprime en la consola el ID del usuario para fines de depuración
-      console.log("User ID:", userId);
-
-      // Llama a la función para obtener información del usuario por ID
       getUserById(userId, res);
     } catch (error: any) {
-      // Manejo de errores en caso de fallo durante la obtención de información del usuario
-      return next(new ErrorHandler(error.message, 500));
+      return next(new ErrorHandler(error.message, 400));
     }
   }
 );
 
-// Define la interfaz para el cuerpo de la solicitud de autenticación social
 interface ISocialAuthBody {
   email: string;
   name: string;
   avatar: string;
 }
 
-// Definición de la función middleware para la autenticación social
+// social auth
 export const socialAuth = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // Extrae las propiedades email, name y avatar del cuerpo de la solicitud
       const { email, name, avatar } = req.body as ISocialAuthBody;
-
-      // Busca un usuario en la base de datos utilizando la dirección de correo electrónico proporcionada
-      const user = await UserModel.findOne({ email });
-
-      // Verifica si el usuario ya existe en la base de datos
+      const user = await userModel.findOne({ email });
       if (!user) {
-        // Si el usuario no existe, crea un nuevo usuario en la base de datos
-        const newUser = await UserModel.create({ email, name, avatar });
-
-        // Envía un token al nuevo usuario y responde con un código 200
+        const newUser = await userModel.create({ email, name, avatar });
         sendToken(newUser, 200, res);
       } else {
-        // Si el usuario ya existe, envía un token y responde con un código 200
         sendToken(user, 200, res);
       }
     } catch (error: any) {
-      // Manejo de errores en caso de fallo durante la autenticación social
-      return next(new ErrorHandler(error.message, 500));
+      return next(new ErrorHandler(error.message, 400));
     }
   }
 );
 
-// Definición de una interfaz para el cuerpo de la solicitud de actualización de usuario
-interface IUpdateUserBody {
+// update user info
+interface IUpdateUserInfo {
   name?: string;
   email?: string;
 }
 
-// Función para actualizar la información del usuario
 export const updateUserInfo = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { name, email } = req.body as IUpdateUserBody;
+      const { name } = req.body as IUpdateUserInfo;
+
       const userId = req.user?._id;
+      const user = await userModel.findById(userId);
 
-      // Buscar y obtener el usuario por su ID
-      const user = await UserModel.findById(userId);
-
-      // Validar y actualizar el correo electrónico del usuario si se proporciona
-      if (email && user) {
-        const isEmailExist = await UserModel.findOne({ email });
-        if (isEmailExist) {
-          return next(new ErrorHandler(400, "Email ya registrado"));
-        }
-        user.email = email;
-      }
-
-      // Actualizar el nombre del usuario si se proporciona
       if (name && user) {
         user.name = name;
       }
 
-      // Guardar los cambios en la base de datos
       await user?.save();
 
-      // Actualizar la información del usuario en la caché (ejemplo usando Redis)
       await redis.set(userId, JSON.stringify(user));
 
-      // Enviar una respuesta con éxito
-      res.status(200).json({
+      res.status(201).json({
         success: true,
         user,
-        message: "Información actualizada con éxito",
       });
     } catch (error: any) {
-      // Manejo de errores en caso de fallo durante la autenticación social
-      return next(new ErrorHandler(error.message, 500));
+      return next(new ErrorHandler(error.message, 400));
     }
   }
 );
 
-// Definición de una interfaz para la solicitud de actualización de contraseña
+// update user password
 interface IUpdatePassword {
   oldPassword: string;
   newPassword: string;
 }
 
-// Función para actualizar la contraseña del usuario
 export const updatePassword = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { oldPassword, newPassword } = req.body as IUpdatePassword;
 
-      // Validar la presencia de la contraseña antigua y nueva
       if (!oldPassword || !newPassword) {
-        return next(
-          new ErrorHandler(
-            400,
-            "Por favor ingrese su contraseña antigua y nueva"
-          )
-        );
+        return next(new ErrorHandler("Please enter old and new password", 400));
       }
 
-      // Obtener el usuario por su ID y seleccionar la contraseña
-      const user = await UserModel.findById(req.user?._id).select("+password");
+      const user = await userModel.findById(req.user?._id).select("+password");
 
-      // Manejar el caso en que el usuario no se encuentra
       if (user?.password === undefined) {
-        return next(new ErrorHandler(400, "Usuario no encontrado"));
+        return next(new ErrorHandler("Invalid user", 400));
       }
 
-      // Verificar si la contraseña antigua coincide
       const isPasswordMatch = await user?.comparePassword(oldPassword);
 
-      // Manejar el caso en que la contraseña antigua no coincide
       if (!isPasswordMatch) {
-        return next(new ErrorHandler(400, "Contraseña antigua incorrecta"));
+        return next(new ErrorHandler("Invalid old password", 400));
       }
 
-      // Actualizar la contraseña y guardar los cambios en la base de datos
       user.password = newPassword;
+
       await user.save();
 
-      // Actualizar la información del usuario en la caché (ejemplo usando Redis)
       await redis.set(req.user?._id, JSON.stringify(user));
 
-      // Enviar una respuesta con éxito
       res.status(201).json({
         success: true,
-        message: "Contraseña actualizada con éxito",
+        user,
       });
     } catch (error: any) {
-      // Manejo de errores en caso de fallo durante la autenticación social
-      return next(new ErrorHandler(error.message, 500));
+      return next(new ErrorHandler(error.message, 400));
     }
   }
 );
 
-// Definición de una interfaz para la solicitud de actualización de avatar
-interface IUpdateAvatar {
+interface IUpdateProfilePicture {
   avatar: string;
 }
 
-// Función para actualizar la imagen de perfil del usuario
+// update profile picture
 export const updateProfilePicture = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { avatar } = req.body;
+      const { avatar } = req.body as IUpdateProfilePicture;
 
       const userId = req.user?._id;
 
-      // Obtener el usuario por su ID
-      const user = await UserModel.findById(userId);
+      const user = await userModel.findById(userId).select("+password");
 
-      // Validar y procesar la actualización de la imagen de avatar
       if (avatar && user) {
-        // Verificar si el usuario ya tiene un avatar y eliminar la imagen anterior
+        // if user have one avatar then call this if
         if (user?.avatar?.public_id) {
+          // first delete the old image
           await cloudinary.v2.uploader.destroy(user?.avatar?.public_id);
-        }
 
-        // Subir la nueva imagen a Cloudinary y actualizar la información del avatar
-        const myCloud = await cloudinary.v2.uploader.upload(avatar, {
-          folder: "avatars",
-          width: 150,
-        });
-        user.avatar = {
-          public_id: myCloud.public_id,
-          url: myCloud.secure_url,
-        };
+          const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+            folder: "avatars",
+            width: 150,
+          });
+          user.avatar = {
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url,
+          };
+        } else {
+          const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+            folder: "avatars",
+            width: 150,
+          });
+          user.avatar = {
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url,
+          };
+        }
       }
 
-      // Guardar los cambios en la base de datos
       await user?.save();
 
-      // Actualizar la información del usuario en la caché (ejemplo usando Redis)
       await redis.set(userId, JSON.stringify(user));
 
-      // Enviar una respuesta con éxito
       res.status(200).json({
         success: true,
         user,
-        message: "Avatar actualizado con éxito",
       });
     } catch (error: any) {
-      // Manejo de errores en caso de fallo durante la autenticación social
-      return next(new ErrorHandler(error.message, 500));
+      return next(new ErrorHandler(error.message, 400));
     }
   }
 );

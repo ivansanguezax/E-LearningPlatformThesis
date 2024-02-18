@@ -4,7 +4,7 @@ import express from "express";
 // Importa la función de controlador para el registro de usuarios
 import {
   activateUser,
-  registerUser,
+  registrationUser,
   loginUser,
   logoutUser,
   updateAccessToken,
@@ -14,13 +14,13 @@ import {
   updatePassword,
   updateProfilePicture,
 } from "../controllers/user.controller";
-import { isAuthenticated } from "../middleware/auth";
+import { isAutheticated } from "../middleware/auth";
 
 // Crea un enrutador utilizando express.Router()
 const userRouter = express.Router();
 
 // Define una ruta para manejar las solicitudes POST relacionadas con el registro de usuarios
-userRouter.post("/registration", registerUser);
+userRouter.post("/registration", registrationUser);
 
 // Define una ruta para manejar las solicitudes POST relacionadas con la activacion de usuarios
 userRouter.post("/activate-user", activateUser);
@@ -29,26 +29,26 @@ userRouter.post("/activate-user", activateUser);
 userRouter.post("/login", loginUser);
 
 // Define una ruta para manejar las solicitudes POST relacionadas con el logout de usuarios
-userRouter.get("/logout", isAuthenticated, logoutUser);
+userRouter.get("/logout", isAutheticated, logoutUser);
 
 // Define una ruta para refrescar el token de acceso
 
 userRouter.get("/refresh", updateAccessToken);
 
 // Define una ruta para tomar la información del usuario
-userRouter.get("/me", isAuthenticated, getUserInfo);
+userRouter.get("/me", isAutheticated, getUserInfo);
 
 // Define una ruta para Social Login
 userRouter.post("/social-auth", socialAuth);
 
 // Define una ruta para actualizar la información del usuario
-userRouter.put("/update-user-info", isAuthenticated, updateUserInfo);
+userRouter.put("/update-user-info", isAutheticated, updateUserInfo);
 
 // Define una ruta para actualiza la contraseña del usuario
-userRouter.put("/update-user-password", isAuthenticated, updatePassword);
+userRouter.put("/update-user-password", isAutheticated, updatePassword);
 
 // Define una ruta para actualizar el avatar del usuario
-userRouter.put("/update-user-avatar", isAuthenticated, updateProfilePicture);
+userRouter.put("/update-user-avatar", isAutheticated, updateProfilePicture);
 
 // Exporta el enrutador para su uso en otros módulos
 export default userRouter;
