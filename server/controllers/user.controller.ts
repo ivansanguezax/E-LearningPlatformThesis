@@ -1,12 +1,9 @@
-// Importa la librería dotenv para cargar variables de entorno desde el archivo .env
 require("dotenv").config();
-
-// Importa las librerías express, ejs, path y jsonwebtoken
 import { Request, Response, NextFunction } from "express";
 import userModel, { IUser } from "../models/user.model";
 import ErrorHandler from "../utils/errorHandler";
 import { CatchAsyncError } from "../middleware/catchAsyncError";
-import jwt, { Secret, JwtPayload } from "jsonwebtoken";
+import jwt, { JwtPayload, Secret } from "jsonwebtoken";
 import ejs from "ejs";
 import path from "path";
 import sendMail from "../utils/sendMail";
@@ -16,9 +13,14 @@ import {
   sendToken,
 } from "../utils/jwt";
 import { redis } from "../utils/redis";
-import { getUserById } from "../services/user.service";
+import {
+  getAllUsersService,
+  getUserById,
+  updateUserRoleService,
+} from "../services/user.service";
 import cloudinary from "cloudinary";
 
+// register user
 interface IRegistrationBody {
   name: string;
   email: string;
@@ -146,9 +148,11 @@ interface ILoginRequest {
 }
 
 export const loginUser = CatchAsyncError(
+  
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log("loginuser");
+    console.log('loginuser')
     try {
+      
       const { email, password } = req.body as ILoginRequest;
 
       if (!email || !password) {
@@ -165,9 +169,10 @@ export const loginUser = CatchAsyncError(
       if (!isPasswordMatch) {
         return next(new ErrorHandler("Invalid email or password", 400));
       }
-      console.log("dhhdh", user);
+   console.log('dhhdh',user)
       sendToken(user, 200, res);
     } catch (error: any) {
+
       return next(new ErrorHandler(error.message, 400));
     }
   }
@@ -206,13 +211,13 @@ export const updateAccessToken = CatchAsyncError(
         return next(new ErrorHandler(message, 400));
       }
       const session = await redis.get(decoded.id as string);
-
+         
       if (!session) {
         return next(
           new ErrorHandler("Please login for access this resources!", 400)
         );
       }
-
+      
       const user = JSON.parse(session);
 
       const accessToken = jwt.sign(
@@ -410,3 +415,60 @@ export const updateProfilePicture = CatchAsyncError(
   }
 );
 
+// get all users --- only for admin
+export const getAllUsers = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      getAllUsersService(res);
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
+
+// update user role --- only for admin
+export const updateUserRole = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email, role } = req.body;
+      const isUserExist = await userModel.findOne({ email });
+      if (isUserExist) {
+        const id = isUserExist._id;
+        updateUserRoleService(res,id, role);
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
+
+// Delete user --- only for admin
+export const deleteUser = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+
+      const user = await userModel.findById(id);
+
+      if (!user) {
+        return next(new ErrorHandler("User not found", 404));
+      }
+
+      await user.deleteOne({ id });
+
+      await redis.del(id);
+
+      res.status(200).json({
+        success: true,
+        message: "User deleted successfully",
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
