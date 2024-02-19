@@ -32,7 +32,7 @@ app.use(
   orderRouter,
   courseRouter,
   notificationRouter,
-  analyticsRouter,
+  analyticsRouter
   // layoutRouter
 );
 
