@@ -4,6 +4,7 @@ import {
   addQuestion,
   addReplyToReview,
   addReview,
+  deleteCourse,
   editCourse,
   getAdminAllCourses,
   getAllCourses,
@@ -32,6 +33,13 @@ courseRouter.get("/get-course/:id", getSingleCourse);
 
 courseRouter.get("/get-courses", getAllCourses);
 
+courseRouter.get(
+  "/get-admin-courses",
+  isAutheticated,
+  authorizeRoles("admin"),
+  getAdminAllCourses
+);
+
 courseRouter.get("/get-course-content/:id", isAutheticated, getCourseByUser);
 
 courseRouter.put("/add-question", isAutheticated, addQuestion);
@@ -47,12 +55,13 @@ courseRouter.put(
   addReplyToReview
 );
 
-courseRouter.get(
-  "/get-admin-courses",
+// courseRouter.post("/getVdoCipherOTP", generateVideoUrl);
+
+courseRouter.delete(
+  "/delete-course/:id",
   isAutheticated,
   authorizeRoles("admin"),
-  getAdminAllCourses
+  deleteCourse
 );
-
 
 export default courseRouter;
