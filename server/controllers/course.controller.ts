@@ -10,81 +10,80 @@ import mongoose from "mongoose";
 import path from "path";
 import ejs from "ejs";
 import sendMail from "../utils/sendMail";
+import NotificationModel from "../models/notificationModel";
 
-//upload Course
-export const uploadCourse = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+// upload course
+export const uploadCourse = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const data = req.body;
-        const thumbnail = data.thumbnail;
-        
-        if (thumbnail) {
-            const myCloud = await cloudynaary.v2.uploader.upload(thumbnail, {
-                folder: "courses"
-            });
-            
-            data.thumbnail = {
-                public_id: myCloud.public_id,
-                url: myCloud.secure_url
-            }
-        }
+      const data = req.body;
+      const thumbnail = data.thumbnail;
+      if (thumbnail) {
+        const myCloud = await cloudinary.v2.uploader.upload(thumbnail, {
+          folder: "courses",
+        });
 
-        createCourse(data, res, next);
-
+        data.thumbnail = {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        };
+      }
+      createCourse(data, res, next);
     } catch (error: any) {
-        return next(new ErrorHandler(error.message, 500));
+      return next(new ErrorHandler(error.message, 500));
     }
-});
+  }
+);
 
 // edit course
 export const editCourse = CatchAsyncError(
-    async (req: Request, res: Response, next: NextFunction) => {
-      try {
-        const data = req.body;
-  
-        const thumbnail = data.thumbnail;
-  
-        const courseId = req.params.id;
-  
-        const courseData = await CourseModel.findById(courseId) as any;
-  
-        if (thumbnail && !thumbnail.startsWith("https")) {
-          await cloudinary.v2.uploader.destroy(courseData.thumbnail.public_id);
-  
-          const myCloud = await cloudinary.v2.uploader.upload(thumbnail, {
-            folder: "courses",
-          });
-  
-          data.thumbnail = {
-            public_id: myCloud.public_id,
-            url: myCloud.secure_url,
-          };
-        }
-  
-        if (thumbnail.startsWith("https")) {
-          data.thumbnail = {
-            public_id: courseData?.thumbnail.public_id,
-            url: courseData?.thumbnail.url,
-          };
-        }
-  
-        const course = await CourseModel.findByIdAndUpdate(
-          courseId,
-          {
-            $set: data,
-          },
-          { new: true }
-        );
-  
-        res.status(201).json({
-          success: true,
-          course,
-        });
-      } catch (error: any) {
-        return next(new ErrorHandler(error.message, 500));
-      }
-    }
-  );
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = req.body;
 
+      const thumbnail = data.thumbnail;
+
+      const courseId = req.params.id;
+
+      const courseData = await CourseModel.findById(courseId) as any;
+
+      if (thumbnail && !thumbnail.startsWith("https")) {
+        await cloudinary.v2.uploader.destroy(courseData.thumbnail.public_id);
+
+        const myCloud = await cloudinary.v2.uploader.upload(thumbnail, {
+          folder: "courses",
+        });
+
+        data.thumbnail = {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        };
+      }
+
+      if (thumbnail.startsWith("https")) {
+        data.thumbnail = {
+          public_id: courseData?.thumbnail.public_id,
+          url: courseData?.thumbnail.url,
+        };
+      }
+
+      const course = await CourseModel.findByIdAndUpdate(
+        courseId,
+        {
+          $set: data,
+        },
+        { new: true }
+      );
+
+      res.status(201).json({
+        success: true,
+        course,
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
 
 // get single course --- without purchasing
 export const getSingleCourse = CatchAsyncError(
@@ -198,8 +197,15 @@ export const addQuestion = CatchAsyncError(
         question,
         questionReplies: [],
       };
-       // add this question to our course content
-       couseContent.questions.push(newQuestion);
+
+      // add this question to our course content
+      couseContent.questions.push(newQuestion);
+
+      await NotificationModel.create({
+        user: req.user?._id,
+        title: "New Question Received",
+        message: `You have a new question in ${couseContent.title}`,
+      });
 
       // save the updated course
       await course?.save();
@@ -213,7 +219,6 @@ export const addQuestion = CatchAsyncError(
     }
   }
 );
-
 
 // add answer in course question
 interface IAddAnswerData {
@@ -264,10 +269,13 @@ export const addAnwser = CatchAsyncError(
 
       await course?.save();
 
-
       if (req.user?._id === question.user._id) {
         // create a notification
-        
+        await NotificationModel.create({
+          user: req.user?._id,
+          title: "New Question Reply Received",
+          message: `You have a new question reply in ${couseContent.title}`,
+        });
       } else {
         const data = {
           name: question.user.name,
@@ -345,7 +353,7 @@ export const addReview = CatchAsyncError(
       });
 
       if (course) {
-        course.ratings = avg / course.reviews.length; 
+        course.ratings = avg / course.reviews.length; // one example we have 2 reviews one is 5 another one is 4 so math working like this = 9 / 2  = 4.5 ratings
       }
 
       await course?.save();
@@ -353,10 +361,12 @@ export const addReview = CatchAsyncError(
       await redis.set(courseId, JSON.stringify(course), "EX", 604800); // 7days
 
       // create notification
-      const notificationData = {
-        title: "New Review",
-        message: `New review has been added to ${course?.name}`,
-      }
+      await NotificationModel.create({
+        user: req.user?._id,
+        title: "New Review Received",
+        message: `${req.user?.name} has given a review in ${course?.name}`,
+      });
+
 
       res.status(200).json({
         success: true,

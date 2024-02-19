@@ -8,6 +8,7 @@ import { ErrorMiddleware } from "./middleware/error";
 import userRouter from "./routes/user.route";
 import courseRouter from "./routes/course.route";
 import orderRouter from "./routes/order.route";
+import notificationRouter from "./routes/notification.route";
 
 // Configuración del middleware para parsear el cuerpo de las solicitudes en formato JSON con un límite de 50 MB
 app.use(express.json({ limit: "50mb" }));
@@ -29,7 +30,7 @@ app.use(
   userRouter,
   orderRouter,
   courseRouter,
-  // notificationRouter,
+  notificationRouter,
   // analyticsRouter,
   // layoutRouter
 );
