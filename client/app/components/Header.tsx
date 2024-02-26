@@ -8,6 +8,7 @@ import CustomModal from "../utils/CustomModal";
 import Login from "../utils/auth/Login";
 import SignUp from "../utils/auth/SignUp";
 import Verification from "../utils/auth/Verification";
+import { useSession } from "next-auth/react";
 
 type Props = {
   open: boolean;
@@ -20,6 +21,7 @@ type Props = {
 const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
+  const { data } = useSession();
 
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {
