@@ -21,7 +21,7 @@ app.use(cookieParser());
 // Configuración del middleware CORS para permitir solicitudes desde el origen especificado en las variables de entorno
 app.use(
   cors({
-    origin: process.env.ORIGIN,
+    origin: ['http://localhost:3000'],
     credentials: true,
   })
 );
