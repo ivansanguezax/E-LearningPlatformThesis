@@ -40,7 +40,7 @@ const Hero = () => {
         </div>
         <br />
         <br />
-        <div className="1500px:w-[55%] 1100px:w-[78%] w-[90%] flex items-center">
+        {/* <div className="1500px:w-[55%] 1100px:w-[78%] w-[90%] flex items-center">
           <Image
             src={require("../../../public/assets/client-1.jpg")}
             alt=""
@@ -65,7 +65,7 @@ const Hero = () => {
               Ver cursos
             </Link>{" "}
           </p>
-        </div>
+        </div> */}
         <br />
       </div>
     </div>
