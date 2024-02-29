@@ -52,7 +52,7 @@ const SideBarProfile: FC<Props> = ({
       >
         <RiLockPasswordLine size={20} className="dark:text-white text-black"  />
         <h5 className="pl-2 800px:block hidden font-Poppins dark:text-white text-black">
-          Cambiar Password
+          Cambiar contraseña
         </h5>
       </div>
       <div
@@ -75,7 +75,7 @@ const SideBarProfile: FC<Props> = ({
         >
           <MdOutlineAdminPanelSettings size={20} className="dark:text-white text-black"  />
           <h5 className="pl-2 800px:block hidden font-Poppins dark:text-white text-black">
-            Administración
+            Area Profesores
           </h5>
         </Link>
       )}

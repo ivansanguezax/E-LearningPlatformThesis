@@ -74,7 +74,7 @@ const CourseInformation: FC<Props> = ({
     <div className="w-[80%] m-auto mt-24">
       <form onSubmit={handleSubmit} className={`${styles.label}`}>
         <div>
-          <label htmlFor="">Course Name</label>
+          <label htmlFor="">Nombre del curso</label>
           <input
             type="name"
             name=""
@@ -84,20 +84,21 @@ const CourseInformation: FC<Props> = ({
               setCourseInfo({ ...courseInfo, name: e.target.value })
             }
             id="name"
-            placeholder="MERN stack LMS platform with next 13"
+            placeholder="Aquí va el nombre del curso"
             className={`
             ${styles.input}`}
           />
         </div>
         <br />
         <div className="mb-5">
-          <label className={`${styles.label}`}>Course Description</label>
+          <label className={`${styles.label}`}>Descripción del curso
+          </label>
           <textarea
             name=""
             id=""
             cols={30}
             rows={8}
-            placeholder="Write something amazing..."
+            placeholder="Escribe una descripción del curso aquí"
             className={`${styles.input} !h-min !py-2`}
             value={courseInfo.description}
             onChange={(e: any) =>
@@ -108,7 +109,7 @@ const CourseInformation: FC<Props> = ({
         <br />
         <div className="w-full flex justify-between">
           <div className="w-[45%]">
-            <label className={`${styles.label}`}>Course Price</label>
+            <label className={`${styles.label}`}>Duracion en horas</label>
             <input
               type="number"
               name=""
@@ -118,14 +119,14 @@ const CourseInformation: FC<Props> = ({
                 setCourseInfo({ ...courseInfo, price: e.target.value })
               }
               id="price"
-              placeholder="29"
+              placeholder="10"
               className={`
             ${styles.input}`}
             />
           </div>
           <div className="w-[50%]">
             <label className={`${styles.label} w-[50%]`}>
-              Estimated Price (optional)
+            Número Máximo de Estudiantes
             </label>
             <input
               type="number"
@@ -135,7 +136,7 @@ const CourseInformation: FC<Props> = ({
                 setCourseInfo({ ...courseInfo, estimatedPrice: e.target.value })
               }
               id="price"
-              placeholder="79"
+              placeholder="20"
               className={`
             ${styles.input}`}
             />
@@ -145,7 +146,7 @@ const CourseInformation: FC<Props> = ({
         <div className="w-full flex justify-between">
           <div className="w-[45%]">
             <label className={`${styles.label}`} htmlFor="email">
-              Course Tags
+              Tags del curso
             </label>
             <input
               type="text"
@@ -156,14 +157,14 @@ const CourseInformation: FC<Props> = ({
                 setCourseInfo({ ...courseInfo, tags: e.target.value })
               }
               id="tags"
-              placeholder="MERN,Next 13,Socket io,tailwind css,LMS"
+              placeholder="Matematicas, Fisica, Quimica, etc."
               className={`
             ${styles.input}`}
             />
           </div>
           <div className="w-[50%]">
             <label className={`${styles.label} w-[50%]`}>
-              Course Categories
+              Categoría del curso
             </label>
             <select
               name=""
@@ -174,7 +175,8 @@ const CourseInformation: FC<Props> = ({
                 setCourseInfo({ ...courseInfo, categories: e.target.value })
               }
             >
-              <option value="">Select Category</option>
+              <option value="">Selecciona una categoría
+              </option>
               {categories &&
                 categories.map((item: any) => (
                   <option value={item.title} key={item._id}>
@@ -187,7 +189,7 @@ const CourseInformation: FC<Props> = ({
         <br />
         <div className="w-full flex justify-between">
           <div className="w-[45%]">
-            <label className={`${styles.label}`}>Course Level</label>
+            <label className={`${styles.label}`}>Nivel del curso</label>
             <input
               type="text"
               name=""
@@ -197,13 +199,13 @@ const CourseInformation: FC<Props> = ({
                 setCourseInfo({ ...courseInfo, level: e.target.value })
               }
               id="level"
-              placeholder="Beginner/Intermediate/Expert"
+              placeholder="Primaria, Secundaria"
               className={`
             ${styles.input}`}
             />
           </div>
           <div className="w-[50%]">
-            <label className={`${styles.label} w-[50%]`}>Demo Url</label>
+            <label className={`${styles.label} w-[50%]`}>URL del Demo</label>
             <input
               type="text"
               name=""
@@ -245,7 +247,7 @@ const CourseInformation: FC<Props> = ({
               />
             ) : (
               <span className="text-black dark:text-white">
-                Drag and drop your thumbnail here or click to browse
+                Arrastra una imagen o haz click para seleccionar una
               </span>
             )}
           </label>
@@ -254,7 +256,7 @@ const CourseInformation: FC<Props> = ({
         <div className="w-full flex items-center justify-end">
           <input
             type="submit"
-            value="Next"
+            value="Siguiente"
             className="w-full 800px:w-[180px] h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
           />
         </div>

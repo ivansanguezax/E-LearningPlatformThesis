@@ -17,7 +17,7 @@ const CreateCourse = (props: Props) => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Course created successfully");
+      toast.success("Curso creado exitosamente");
       redirect("/admin/courses");
     }
     if (error) {
@@ -47,7 +47,7 @@ const CreateCourse = (props: Props) => {
       videoUrl: "",
       title: "",
       description: "",
-      videoSection: "Untitled Section",
+      videoSection: "Nombre de la sección",
       videoLength: "",
       links: [
         {

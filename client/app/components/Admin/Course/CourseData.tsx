@@ -49,7 +49,7 @@ const CourseData: FC<Props> = ({
     if (benefits[benefits.length - 1]?.title !== "" && prerequisites[prerequisites.length - 1]?.title !== "") {
       setActive(active + 1);
     } else{
-        toast.error("Please fill the fields for go to next!")
+        toast.error("Por favor, rellene todos los campos antes de continuar.")
     }
   };
   
@@ -58,7 +58,7 @@ const CourseData: FC<Props> = ({
     <div className="w-[80%] m-auto mt-24 block">
       <div>
         <label className={`${styles.label} text-[20px]`} htmlFor="email">
-          What are the benefits for students in this course?
+          Cuales son los beneficios de este curso?
         </label>
         <br />
         {benefits.map((benefit: any, index: number) => (
@@ -66,7 +66,7 @@ const CourseData: FC<Props> = ({
             type="text"
             key={index}
             name="Benefit"
-            placeholder="You will be able to build a full stack LMS Platform..."
+            placeholder="Tu puedes aprender muchas cosas de este curso."
             required
             className={`${styles.input} my-2`}
             value={benefit.title}
@@ -81,7 +81,7 @@ const CourseData: FC<Props> = ({
 
       <div>
         <label className={`${styles.label} text-[20px]`} htmlFor="email">
-        What are the prerequisites for starting this course?
+          Cuales son los requisitos previos de este curso?
         </label>
         <br />
         {prerequisites.map((prerequisites: any, index: number) => (
@@ -89,7 +89,7 @@ const CourseData: FC<Props> = ({
             type="text"
             key={index}
             name="prerequisites"
-            placeholder="You need basic knowledge of MERN stack"
+            placeholder="No hay requisitos previos para este curso."
             required
             className={`${styles.input} my-2`}
             value={prerequisites.title}
@@ -107,13 +107,13 @@ const CourseData: FC<Props> = ({
           className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
           onClick={() => prevButton()}
         >
-          Prev
+          Atras
         </div>
         <div
           className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
           onClick={() => handleOptions()}
         >
-          Next
+          Siguiente
         </div>
       </div>
     </div>

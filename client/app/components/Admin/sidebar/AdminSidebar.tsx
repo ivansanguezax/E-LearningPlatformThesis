@@ -180,10 +180,10 @@ const Sidebar = () => {
               sx={{ m: "15px 0 5px 25px" }}
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
             >
-              {!isCollapsed && "Data"}
+              {!isCollapsed && "Datos"}
             </Typography>
             <Item
-              title="Users"
+              title="Estudiantes"
               to="/admin/users"
               icon={<GroupsIcon />}
               selected={selected}
@@ -191,7 +191,7 @@ const Sidebar = () => {
             />
 
             <Item
-              title="Invoices"
+              title="Inscripciones"
               to="/admin/invoices"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
@@ -203,17 +203,17 @@ const Sidebar = () => {
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}
             >
-              {!isCollapsed && "Content"}
+              {!isCollapsed && "Contenido"}
             </Typography>
             <Item
-              title="Create Course"
+              title="Crear curso"
               to="/admin/create-course"
               icon={<VideoCallIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Live Courses"
+              title="Lista de Cursos"
               to="/admin/courses"
               icon={<OndemandVideoIcon />}
               selected={selected}
@@ -225,24 +225,24 @@ const Sidebar = () => {
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}
             >
-              {!isCollapsed && "Customization"}
+              {!isCollapsed && "Personalización"}
             </Typography>
             <Item
-              title="Hero"
+              title="Landing"
               to="/admin/hero"
               icon={<WebIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="FAQ"
+              title="Preguntas"
               to="/admin/faq"
               icon={<QuizIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Categories"
+              title="Categorias"
               to="/admin/categories"
               icon={<WysiwygIcon />}
               selected={selected}
@@ -254,10 +254,10 @@ const Sidebar = () => {
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}
             >
-              {!isCollapsed && "Controllers"}
+              {!isCollapsed && "Control de Profesores"}
             </Typography>
             <Item
-              title="Manage Team"
+              title="Profesores"
               to="/admin/team"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
@@ -269,17 +269,17 @@ const Sidebar = () => {
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}
             >
-              {!isCollapsed && "Analytics"}
+              {!isCollapsed && "Analiticas"}
             </Typography>
             <Item
-              title="Courses Analytics"
+              title="Data de Cursos"
               to="/admin/courses-analytics"
               icon={<BarChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Orders Analytics"
+              title="Data de Inscripciones"
               to="/admin/orders-analytics"
               icon={<MapOutlinedIcon />}
               selected={selected}
@@ -287,7 +287,7 @@ const Sidebar = () => {
             />
 
             <Item
-              title="Users Analytics"
+              title="Data de Alumnos"
               to="/admin/users-analytics"
               icon={<ManageHistoryIcon />}
               selected={selected}
@@ -303,7 +303,7 @@ const Sidebar = () => {
             </Typography>
             <div onClick={logoutHandler}>
               <Item
-                title="Logout"
+                title="Salir"
                 to="/"
                 icon={<ExitToAppIcon />}
                 selected={selected}

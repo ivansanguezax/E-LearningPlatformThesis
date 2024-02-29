@@ -26,14 +26,12 @@ const AllCourses = (props: Props) => {
   );
   const [deleteCourse, { isSuccess, error }] = useDeleteCourseMutation({});
   const columns = [
-    { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "title", headerName: "Course Title", flex: 1 },
-    { field: "ratings", headerName: "Ratings", flex: 0.5 },
-    { field: "purchased", headerName: "Purchased", flex: 0.5 },
-    { field: "created_at", headerName: "Created At", flex: 0.5 },
+    { field: "title", headerName: "Titulo del Curso", flex: 1 },
+    { field: "purchased", headerName: "Inscripciones", flex: 0.5 },
+    { field: "created_at", headerName: "Fecha de Creacion", flex: 0.5 },
     {
       field: "  ",
-      headerName: "Edit",
+      headerName: "Editar",
       flex: 0.2,
       renderCell: (params: any) => {
         return (
@@ -47,7 +45,7 @@ const AllCourses = (props: Props) => {
     },
     {
       field: " ",
-      headerName: "Delete",
+      headerName: "Eliminar",
       flex: 0.2,
       renderCell: (params: any) => {
         return (
@@ -88,7 +86,7 @@ const AllCourses = (props: Props) => {
     if (isSuccess) {
       setOpen(false);
       refetch();
-      toast.success("Course Deleted Successfully");
+      toast.success("Curso Eliminado Exitosamente!");
     }
     if (error) {
       if ("data" in error) {
@@ -172,20 +170,20 @@ const AllCourses = (props: Props) => {
             >
               <Box className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[450px] bg-white dark:bg-slate-900 rounded-[8px] shadow p-4 outline-none">
                 <h1 className={`${styles.title}`}>
-                  Are you sure you want to delete this course?
+                  Estas seguro que deseas eliminar este curso?
                 </h1>
                 <div className="flex w-full items-center justify-between mb-6 mt-4">
                   <div
                     className={`${styles.button} !w-[120px] h-[30px] bg-[#47d097]`}
                     onClick={() => setOpen(!open)}
                   >
-                    Cancel
+                    Cancelar
                   </div>
                   <div
                     className={`${styles.button} !w-[120px] h-[30px] bg-[#d63f3f]`}
                     onClick={handleDelete}
                   >
-                    Delete
+                    Eliminar
                   </div>
                 </div>
               </Box>

@@ -8,10 +8,10 @@ type Props = {
 
 const CourseOptions: FC<Props> = ({ active, setActive }) => {
     const options = [
-        "Course Information",
-        "Course Options",
-        "Course Content",
-        "Course Preview",
+        "Informacion del Curso",
+        "Beneficios",
+        "Contenido para el Curso",
+        "Vista Previa del Curso",
       ];
     return (
      <div>

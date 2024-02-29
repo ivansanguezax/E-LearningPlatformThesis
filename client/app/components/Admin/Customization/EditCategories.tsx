@@ -26,7 +26,7 @@ import {
       }
       if (layoutSuccess) {
           refetch();
-        toast.success("Categories updated successfully");
+        toast.success("Categoria editada exitosamente");
       }
   
       if (error) {
@@ -45,7 +45,7 @@ import {
   
     const newCategoriesHandler = () => {
       if (categories[categories.length - 1].title === "") {
-        toast.error("Category title cannot be empty");
+        toast.error("El campo de categoría no puede estar vacío");
       } else {
         setCategories((prevCategory: any) => [...prevCategory, { title: "" }]);
       }
@@ -80,7 +80,8 @@ import {
           <Loader />
         ) : (
           <div className="mt-[120px] text-center">
-            <h1 className={`${styles.title}`}>All Categories</h1>
+            <h1 className={`${styles.title}`}>Todos las categorías
+            </h1>
             {categories &&
               categories.map((item: any, index: number) => {
                 return (
@@ -92,7 +93,7 @@ import {
                         onChange={(e) =>
                           handleCategoriesAdd(item._id, e.target.value)
                         }
-                        placeholder="Enter category title..."
+                        placeholder="ingrese el nombre de la categoría"
                       />
                       <AiOutlineDelete
                         className="dark:text-white text-black text-[18px] cursor-pointer"
@@ -132,7 +133,7 @@ import {
                   : editCategoriesHandler
               }
             >
-              Save
+              Guardar
             </div>
           </div>
         )}

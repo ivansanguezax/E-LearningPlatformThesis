@@ -25,7 +25,7 @@ const EditFaq = (props: Props) => {
       setQuestions(data.layout.faq);
     }
     if(layoutSuccess){
-        toast.success("FAQ updated successfully");
+        toast.success("Preugntas frecuentes editadas exitosamente");
     }
 
     if(error){
@@ -178,7 +178,7 @@ const EditFaq = (props: Props) => {
               : handleEdit
           }
         >
-          Save
+          Guardar
         </div>
       </div>
     )

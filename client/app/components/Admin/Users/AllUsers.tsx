@@ -43,12 +43,12 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
 
     if (isSuccess) {
       refetch();
-      toast.success("User role updated successfully");
+      toast.success("Rol de usuario actualizado exitosamente");
       setActive(false);
     }
     if (deleteSuccess) {
       refetch();
-      toast.success("Delete user successfully!");
+      toast.success("El usuario ha sido eliminado exitosamente");
       setOpen(false);
     }
     if (deleteError) {
@@ -61,14 +61,13 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.3 },
-    { field: "name", headerName: "Name", flex: 0.5 },
+    { field: "name", headerName: "Nombre", flex: 0.5 },
     { field: "email", headerName: "Email", flex: 0.5 },
-    { field: "role", headerName: "Role", flex: 0.5 },
-    { field: "courses", headerName: "Purchased Courses", flex: 0.5 },
-    { field: "created_at", headerName: "Joined At", flex: 0.5 },
+    { field: "courses", headerName: "Cursos inscritos", flex: 0.5 },
+    { field: "created_at", headerName: "Unido hace", flex: 0.5 },
     {
       field: " ",
-      headerName: "Delete",
+      headerName: "Eliminar",
       flex: 0.2,
       renderCell: (params: any) => {
         return (
@@ -156,7 +155,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
                 className={`${styles.button} !w-[200px] !rounded-[10px] dark:bg-[#57c7a3] !h-[35px] dark:border dark:border-[#ffffff6c]`}
                 onClick={() => setActive(!active)}
               >
-                Add New Member
+                Agregar nuevo Profesor
               </div>
             </div>
           )}
@@ -222,7 +221,8 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
               aria-describedby="modal-modal-description"
             >
               <Box className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[450px] bg-white dark:bg-slate-900 rounded-[8px] shadow p-4 outline-none">
-                <h1 className={`${styles.title}`}>Add New Member</h1>
+                <h1 className={`${styles.title}`}>Agregar nuevo profesor
+                </h1>
                 <div className="mt-4">
                   <input
                     type="email"
@@ -238,14 +238,14 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
                     onChange={(e: any) => setRole(e.target.value)}
                   >
                     <option value="admin">Admin</option>
-                    <option value="user">User</option>
+                    <option value="user">Estudiante</option>
                   </select>
                   <br />
                   <div
                     className={`${styles.button} my-6 !h-[30px]`}
                     onClick={handleSubmit}
                   >
-                    Submit
+                    Agregar
                   </div>
                 </div>
               </Box>
@@ -261,20 +261,20 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
             >
               <Box className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[450px] bg-white dark:bg-slate-900 rounded-[8px] shadow p-4 outline-none">
                 <h1 className={`${styles.title}`}>
-                  Are you sure you want to delete this user?
+                  Estas seguro que quieres eliminar este usuario?
                 </h1>
                 <div className="flex w-full items-center justify-between mb-6 mt-4">
                   <div
                     className={`${styles.button} !w-[120px] h-[30px] bg-[#57c7a3]`}
                     onClick={() => setOpen(!open)}
                   >
-                    Cancel
+                    cancelar
                   </div>
                   <div
                     className={`${styles.button} !w-[120px] h-[30px] bg-[#d63f3f]`}
                     onClick={handleDelete}
                   >
-                    Delete
+                    Eliminar
                   </div>
                 </div>
               </Box>

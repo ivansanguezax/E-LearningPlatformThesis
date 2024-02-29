@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-learning Activation Email</title>
+    <title>Correo de Activación de E-learning</title>
     <style type="text/css">
         /* Base */
         body {
             margin: 0;
             padding: 0;
             min-width: 100%;
-            font-family: Arial, sans-serif;
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif; /* Más amigable para niños */
             font-size: 16px;
             line-height: 1.5;
             background-color: #FAFAFA;
@@ -18,8 +18,8 @@
         }
 
         a {
-            color: #000;
-            text-decoration: none;
+            color: #0070f3;
+            text-decoration: underline; /* Hacer los enlaces más reconocibles */
         }
         h1 {
             font-size: 24px;
@@ -28,10 +28,12 @@
             margin-top: 0;
             margin-bottom: 15px;
             text-align: center;
+            color: #4A90E2; /* Un azul más suave */
         }
         p {
             margin-top: 0;
             margin-bottom: 24px;
+            color: #333333; /* Un poco más oscuro para mejorar la legibilidad */
         }
         table td {
             vertical-align: top;
@@ -42,13 +44,14 @@
             margin: 0 auto;
         }
         .email-header {
-            background-color: #0070f3;
+            background-color: #FFD700; /* Un amarillo más amigable y divertido */
             padding: 24px;
             color: #ffffff;
         }
         .email-body {
             padding: 24px;
             background-color: #ffffff;
+            border: 2px dashed #4A90E2; /* Añadir un borde para hacerlo más divertido */
         }
         .email-footer {
             background-color: #f6f6f6;
@@ -57,30 +60,30 @@
         /* Buttons */
         .button {
             display: inline-block;
-            background-color: #0070f3;
+            background-color: #FF69B4; /* Un color más alegre */
             color: #ffffff;
             font-size: 16px;
             font-weight: 700;
             text-align: center;
             text-decoration: none;
             padding: 12px 24px;
-            border-radius: 4px;
+            border-radius: 8px; /* Más redondeado */
         }
     </style>
 </head>
 <body>
     <div class="email-wrapper">
         <div class="email-header">
-            <h1>Bienvenido E-Learning</h1>
+            <h1>¡Bienvenido a Aprender Jugando!</h1>
         </div>
         <div class="email-body">
             <p>Hola <%= user.name %>,</p>
-            <p>Gracias por registrarte To activate your account, please use the following activation code:</p>
+            <p>¡Estamos emocionados de tenerte a bordo! Para activar tu cuenta, por favor usa el siguiente código de activación:</p>
             <h2><%= activationCode %></h2>
-            <p>Please enter this code on the activation page within the next 5 minutes.</p>
+            <p>Ingresa este código en la página de activación dentro de los próximos 5 minutos.</p>
         </div>
         <div class="email-footer">
-            <p>If you have any questions, please don't hesitate to contact us</p>
+            <p>Si tienes alguna pregunta, no dudes en contactarnos.</p>
         </div>
     </div>
 </body>

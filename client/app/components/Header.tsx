@@ -5,9 +5,9 @@ import NavItems from "../utils/NavItems";
 import { ThemeSwitcher } from "../utils/ThemeSwitcher";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
 import CustomModal from "../utils/CustomModal";
-import Login from "./Auth/Login";
-import SignUp from "./Auth/SignUp";
-import Verification from "./Auth/Verification";
+import Login from "../components/Auth/Login";
+import SignUp from "../components/Auth/SignUp";
+import Verification from "../components/Auth/Verification";
 import Image from "next/image";
 import avatar from "../../public/assets/avatar.png";
 import { useSession } from "next-auth/react";
@@ -163,7 +163,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
               <br />
               <br />
               <p className="text-[16px] px-2 pl-5 text-black dark:text-white">
-                Copyright © 2023 ELearning
+                Copyright © 2024 ELearning
               </p>
             </div>
           </div>

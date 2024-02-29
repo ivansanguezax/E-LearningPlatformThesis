@@ -107,23 +107,10 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
                   {ordersComparePercentage?.currentMonth}
                 </h5>
                 <h5 className="py-2 font-Poppins dark:text-[#45CBA0] text-black text-[20px] font-[400]">
-                  Sales Obtained
+                  Inscripciones
                 </h5>
               </div>
-              <div>
-                <CircularProgressWithLabel value={
-                  ordersComparePercentage?.percentChange > 0 
-                  ? 100 
-                  : 0
-                } open={open} />
-                <h5 className="text-center pt-4">
-                 {
-                  ordersComparePercentage?.percentChange > 0 
-                  ? "+" + ordersComparePercentage?.percentChange.toFixed(2)
-                  : "-" + ordersComparePercentage?.percentChange.toFixed(2)
-                 } %
-                </h5>
-              </div>
+             
             </div>
           </div>
 
@@ -135,21 +122,10 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
                   {userComparePercentage?.currentMonth}
                 </h5>
                 <h5 className="py-2 font-Poppins dark:text-[#45CBA0] text-black text-[20px] font-[400]">
-                  New Users
+                  Nuevos Estudiantes
                 </h5>
               </div>
-              <div>
-                <CircularProgressWithLabel value={
-                  userComparePercentage?.percentChange > 0 
-                  ? 100 
-                  : 0
-                } open={open} />
-                <h5 className="text-center pt-4">
-                  {userComparePercentage?.percentChange > 0
-                    ? "+" + userComparePercentage?.percentChange.toFixed(2) 
-                    : "-" + userComparePercentage?.percentChange.toFixed(2)} %
-                </h5>
-              </div>
+              
             </div>
           </div>
         </div>
@@ -161,7 +137,7 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
         </div>
         <div className="p-5">
           <h5 className="dark:text-[#fff] text-black text-[20px] font-[400] font-Poppins pb-3">
-            Recent Transactions
+            Estudiantes recientes
           </h5>
           <AllInvoices isDashboard={true} />
         </div>

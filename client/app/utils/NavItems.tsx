@@ -11,12 +11,8 @@ export const navItemsData = [
     url: "/courses",
   },
   {
-    name: "Direccion",
+    name: "Sobre la Tesis",
     url: "/about",
-  },
-  {
-    name: "Areas",
-    url: "/policy",
   },
   {
     name: "FAQ",
