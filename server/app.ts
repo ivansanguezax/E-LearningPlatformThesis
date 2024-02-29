@@ -1,4 +1,3 @@
-// Importación de módulos y configuración de variables de entorno
 require("dotenv").config();
 import express, { NextFunction, Request, Response } from "express";
 export const app = express();
@@ -11,22 +10,31 @@ import orderRouter from "./routes/order.route";
 import notificationRouter from "./routes/notification.route";
 import analyticsRouter from "./routes/analytics.route";
 import layoutRouter from "./routes/layout.route";
+import { rateLimit } from 'express-rate-limit'
 
-// Configuración del middleware para parsear el cuerpo de las solicitudes en formato JSON con un límite de 50 MB
+// body parser
 app.use(express.json({ limit: "50mb" }));
 
-// Configuración del middleware para analizar las cookies en las solicitudes
+// cookie parser
 app.use(cookieParser());
 
-// Configuración del middleware CORS para permitir solicitudes desde el origen especificado en las variables de entorno
+// cors => cross origin resource sharing
 app.use(
   cors({
-    origin: ['http://localhost:3000'],
+    origin: ["http://localhost:3000"],
     credentials: true,
   })
 );
 
-// Rutas de la API
+// api requests limit
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000,
+	max: 100, 
+	standardHeaders: 'draft-7', 
+	legacyHeaders: false, 
+})
+
+// routes
 app.use(
   "/api/v1",
   userRouter,
@@ -37,19 +45,21 @@ app.use(
   layoutRouter
 );
 
-// Ruta de prueba para verificar si la API está funcionando correctamente
+// testing api
 app.get("/test", (req: Request, res: Response, next: NextFunction) => {
   res.status(200).json({
-    success: true,
-    message: "API working",
+    succcess: true,
+    message: "API is working",
   });
 });
 
-// Middleware para manejar rutas desconocidas
+// unknown route
 app.all("*", (req: Request, res: Response, next: NextFunction) => {
-  const err = new Error(`Can't find ${req.originalUrl} on this server`);
+  const err = new Error(`Route ${req.originalUrl} not found`) as any;
+  err.statusCode = 404;
   next(err);
 });
 
-// Middleware de manejo de errores personalizado
+// middleware calls
+app.use(limiter);
 app.use(ErrorMiddleware);
