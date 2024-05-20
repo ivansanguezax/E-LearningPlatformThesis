@@ -42,7 +42,6 @@ export const editCourse = CatchAsyncError(
       const data = req.body;
 
       const thumbnail = data.thumbnail;
-
       const courseId = req.params.id;
 
       const courseData = await CourseModel.findById(courseId) as any;
@@ -65,6 +64,7 @@ export const editCourse = CatchAsyncError(
           public_id: courseData?.thumbnail.public_id,
           url: courseData?.thumbnail.url,
         };
+        console.log(data.thumbnail);
       }
 
       const course = await CourseModel.findByIdAndUpdate(

@@ -1,6 +1,7 @@
 import Ratings from "@/app/utils/Ratings";
 import Image from "next/image";
 import Link from "next/link";
+import { styles } from "@/app/styles/styles";
 import React, { FC } from "react";
 import { AiOutlineUnorderedList } from "react-icons/ai";
 
@@ -14,7 +15,7 @@ const CourseCard: FC<Props> = ({ item, isProfile }) => {
     <Link
       href={!isProfile ? `/course/${item._id}` : `course-access/${item._id}`}
     >
-      <div className="w-full min-h-[35vh] dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3 shadow-sm dark:shadow-inner">
+      <div className="w-full   !bg-white min-h-[25vh]  backdrop-blur border-2 border-gray-900 shadow-[0px_5px_0px_0px_#18191F] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3  dark:shadow-inner">
         <Image
           src={item.thumbnail.url}
           width={500}
@@ -24,13 +25,12 @@ const CourseCard: FC<Props> = ({ item, isProfile }) => {
           alt=""
         />
         <br />
-        <h1 className="font-Poppins text-[16px] text-black dark:text-[#fff]">
+        <h1 className="font-Poppins text-[16px] font-semibold text-black dark:text-[#fff]">
           {item.name}
         </h1>
         <div className="w-full flex items-center justify-between pt-2">
-          
           <h5
-            className={`text-black dark:text-[#fff] ${
+            className={` dark:text-[#fff] text-gray-400 font-Poppins ${
               isProfile && "hidden 800px:inline"
             }`}
           >
@@ -40,9 +40,8 @@ const CourseCard: FC<Props> = ({ item, isProfile }) => {
         <div className="w-full flex items-center justify-between pt-3">
           <div className="flex">
             <h3 className="text-black dark:text-[#fff]">
-              {item.price === 0 ? "Horas" : item.price + "Horas"}
+              {item.price === 0 ? " Horas" : item.price + " Hora"}
             </h3>
-            
           </div>
           <div className="flex items-center pb-3">
             <AiOutlineUnorderedList size={20} fill="#fff" />
@@ -50,6 +49,16 @@ const CourseCard: FC<Props> = ({ item, isProfile }) => {
               {item.courseData?.length} Clases
             </h5>
           </div>
+        </div>
+        <div className="flex justify-center">
+          <Link
+            className={`${styles.button}  !w-[200px] my-5 font-Poppins cursor-pointer`}
+            href={
+              !isProfile ? `/course/${item._id}` : `course-access/${item._id}`
+            }
+          >
+            Ingresar al curso
+          </Link>
         </div>
       </div>
     </Link>

@@ -59,14 +59,15 @@ const ProfileInfo: FC<Props> = ({ avatar, user }) => {
 
   return (
     <>
-      <div className="w-full flex justify-center">
-        <div className="relative">
+      <div className="w-full  flex justify-center">
+        <div className="flex justify-center">
+        <div className="relative ">
           <Image
             src={user.avatar || avatar ? user.avatar.url || avatar : avatarIcon}
             alt=""
             width={120}
             height={120}
-            className="w-[120px] h-[120px] cursor-pointer border-[3px] border-[#37a39a] rounded-full"
+            className="w-[120px] h-[120px] cursor-pointer border-[3px] border-[#1947E5] rounded-full"
           />
           <input
             type="file"
@@ -81,15 +82,15 @@ const ProfileInfo: FC<Props> = ({ avatar, user }) => {
               <AiOutlineCamera size={20} className="z-1" />
             </div>
           </label>
-        </div>
+        </div></div>
       </div>
       <br />
       <br />
-      <div className="w-full pl-6 800px:pl-10">
+      <div className="w-full pl-6 800px:pl-10  ">
         <form onSubmit={handleSubmit}>
           <div className="800px:w-[50%] m-auto block pb-4">
             <div className="w-[100%]">
-              <label className="block pb-2">Nombre Completo</label>
+              <label className={`${styles.label}`}>Nombre Completo</label>
               <input
                 type="text"
                 className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
@@ -99,7 +100,7 @@ const ProfileInfo: FC<Props> = ({ avatar, user }) => {
               />
             </div>
             <div className="w-[100%] pt-2">
-              <label className="block pb-2">Correo Electronico</label>
+              <label className={`${styles.label}`}>Correo Electronico</label>
               <input
                 type="text"
                 readOnly
@@ -108,12 +109,12 @@ const ProfileInfo: FC<Props> = ({ avatar, user }) => {
                 value={user?.email}
               />
             </div>
+            <div className="flex justify-center ">
             <input
-              className={`w-full 800px:w-[250px] h-[40px] border border-[#37a39a] text-center dark:text-[#fff] text-black rounded-[3px] mt-8 cursor-pointer`}
-              required
+              className={`${styles.button} w-[95%] 800px:w-[50%] mt-5`}
               value="Actualizar"
               type="submit"
-            />
+            /></div>
           </div>
         </form>
         <br />

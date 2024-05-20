@@ -209,7 +209,7 @@ const CourseContentMedia = ({
         <div
           className={`${
             styles.button
-          } text-white  !w-[unset] !min-h-[40px] !py-[unset] ${
+          }   !w-[unset] !min-h-[40px] !py-[unset] ${
             activeVideo === 0 && "!cursor-no-drop opacity-[.8]"
           }`}
           onClick={() =>
@@ -222,7 +222,7 @@ const CourseContentMedia = ({
         <div
           className={`${
             styles.button
-          } !w-[unset] text-white  !min-h-[40px] !py-[unset] ${
+          } !w-[unset]  !min-h-[40px] !py-[unset] ${
             data.length - 1 === activeVideo && "!cursor-no-drop opacity-[.8]"
           }`}
           onClick={() =>
@@ -247,8 +247,8 @@ const CourseContentMedia = ({
             key={index}
             className={`800px:text-[20px] cursor-pointer ${
               activeBar === index
-                ? "text-red-500"
-                : "dark:text-white text-black"
+                ? "text-sky-800 font-Poppins"
+                : "dark:text-white text-black font-Poppins"
             }`}
             onClick={() => setactiveBar(index)}
           >

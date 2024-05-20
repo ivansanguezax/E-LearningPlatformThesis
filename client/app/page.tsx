@@ -2,10 +2,8 @@
 import React, { FC, useEffect, useState } from "react";
 import Heading from "./utils/Heading";
 import Header from "./components/Header";
-import Hero from "./components/Route/Hero";
 import Courses from "./components/Route/Courses";
-import FAQ from "./components/FAQ/FAQ";
-import Footer from "./components/Footer";
+
 
 
 interface Props {}
@@ -16,7 +14,7 @@ const Page: FC<Props> = (props) => {
   const [route, setRoute] = useState("Login");
 
   return (
-    <div>
+    <div >
       <Heading
         title="ELearning"
         description="ELearning is a platform for students to learn and get help from teachers"
@@ -29,10 +27,7 @@ const Page: FC<Props> = (props) => {
         setRoute={setRoute}
         route={route}
       />
-      <Hero />
       <Courses />
-      <FAQ />
-
     </div>
   );
 };

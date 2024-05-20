@@ -86,18 +86,18 @@ const CourseContentList: FC<Props> = (props) => {
                   const contentLength: number = item.videoLength / 60;
                   return (
                     <div
-                      className={`w-full ${
+                      className={`w-full bg-white p-3 rounded-lg shadow-custom${
                         videoIndex === props.activeVideo ? "bg-slate-800" : ""
                       } cursor-pointer transition-all p-2`}
                       key={item._id}
                       onClick={() => props.isDemo ? null : props?.setActiveVideo(videoIndex)}
                     >
-                      <div className="flex items-start">
+                      <div className="flex items-start ">
                         <div>
                           <MdOutlineOndemandVideo
                             size={25}
                             className="mr-2"
-                            color="#1cdada"
+                            color="#1947E5"
                           />
                         </div>
                         <h1 className="text-[18px] inline-block break-words text-black dark:text-white">

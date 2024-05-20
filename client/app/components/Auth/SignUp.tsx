@@ -2,6 +2,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Image from 'next/image';
 import {
   AiOutlineEye,
   AiOutlineEyeInvisible,
@@ -54,9 +55,28 @@ const Signup: FC<Props> = ({ setRoute }) => {
   const { errors, touched, values, handleChange, handleSubmit } = formik;
 
   return (
-    <div className="w-full">
-      <h1 className={`${styles.title}`}>Únete a ELearning</h1>
-      <form onSubmit={handleSubmit}>
+    <div className=" px-5  py-4 flex flex-col justify-center items-center">
+      <div className="">
+        <Image
+          src="https://res.cloudinary.com/dfgjenml4/image/upload/v1716161299/c0fpzljz4xq6nvplovc7.png"
+          alt="AruQhana"
+          width={120}
+          height={20}
+        />
+      </div>
+      <div className="w-full">
+    <h1 className={`${styles.title} flex items-center justify-center`}>
+      Bienvenido a
+      <span className="ml-2">
+        <Image
+          src="https://res.cloudinary.com/dfgjenml4/image/upload/v1716154730/qghejkwqbzybrjxpkixj.png"
+          alt="AruQhana"
+          width={130}  
+          height={20}
+        />
+      </span>
+    </h1>
+      <form onSubmit={handleSubmit} className="mt-5">
         <div className="mb-3">
           <label className={`${styles.label}`} htmlFor="name">
             Ingresa tu nombre
@@ -136,10 +156,12 @@ const Signup: FC<Props> = ({ setRoute }) => {
         <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">
           O únete con
         </h5>
-        <div className="flex items-center justify-center my-3">
+
+        <div className="flex items-center justify-center my-3 p-3 bg-slate-200 rounded-lg">
+          <h3 className="text-black mr-3 font-Poppins">Inicia con Google</h3>
           <FcGoogle size={30} className="cursor-pointer" />
         </div>
-        <h5 className="text-center pt-4 font-Poppins text-[14px]">
+        <h5 className="text-center text-black pt-4 font-Poppins text-[14px]">
           ¿Ya tienes una cuenta?{" "}
           <span
             className="text-[#2190ff] pl-1 cursor-pointer"
@@ -151,6 +173,7 @@ const Signup: FC<Props> = ({ setRoute }) => {
       </form>
       <br />
     </div>
+            </div>
   );
 };
 

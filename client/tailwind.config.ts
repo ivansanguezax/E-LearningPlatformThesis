@@ -9,6 +9,9 @@ const config: Config = {
   darkMode:["class"],
   theme: {
     extend: {
+      boxShadow: {
+        'custom': '0px 10px 25px 0px rgba(0, 0, 0, 0.25)',
+      },
       fontFamily:{
         Poppins: ["var(--font-Poppins)"],
         Josefin: ["var(--font-Josefin)"],

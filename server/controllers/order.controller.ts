@@ -78,7 +78,7 @@ export const createOrder = CatchAsyncError(
         if (user) {
           await sendMail({
             email: user.email,
-            subject: "Order Confirmation",
+            subject: "Inscripción exitosa",
             template: "order-confirmation.ejs",
             data: mailData,
           });

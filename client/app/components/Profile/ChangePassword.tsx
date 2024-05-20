@@ -44,7 +44,7 @@ const ChangePassword: FC<Props> = (props) => {
           className="flex flex-col items-center"
         >
           <div className=" w-[100%] 800px:w-[60%] mt-5">
-            <label className="block pb-2 text-black dark:text-[#fff]">
+            <label className={`${styles.label}`}>
               Ingrese su contraseña actual
             </label>
             <input
@@ -56,7 +56,7 @@ const ChangePassword: FC<Props> = (props) => {
             />
           </div>
           <div className=" w-[100%] 800px:w-[60%] mt-2">
-            <label className="block pb-2 text-black dark:text-[#fff]">
+            <label className={`${styles.label}`}>
               Ingresa tu nueva contraseña
             </label>
             <input
@@ -68,7 +68,7 @@ const ChangePassword: FC<Props> = (props) => {
             />
           </div>
           <div className=" w-[100%] 800px:w-[60%] mt-2">
-            <label className="block pb-2 text-black dark:text-[#fff]">
+            <label className={`${styles.label}`}>
               Ingresa para confirmar contraseña
             </label>
             <input
@@ -78,12 +78,13 @@ const ChangePassword: FC<Props> = (props) => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
+            <div className="flex justify-center ">
             <input
-              className={`w-[95%] h-[40px] border border-[#37a39a] text-center text-black dark:text-[#fff] rounded-[3px] mt-8 cursor-pointer`}
+              className={`${styles.button} w-[95%] 800px:w-[50%] mt-5`}
               required
               value="Actualizar"
               type="submit"
-            />
+            /></div>
           </div>
         </form>
       </div>

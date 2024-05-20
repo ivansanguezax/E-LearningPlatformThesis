@@ -257,7 +257,7 @@ const CourseInformation: FC<Props> = ({
           <input
             type="submit"
             value="Siguiente"
-            className="w-full 800px:w-[180px] h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
+            className="w-full 800px:w-[180px] h-[40px] bg-[#1947E5] text-center text-[#fff] rounded mt-8 cursor-pointer"
           />
         </div>
         <br />

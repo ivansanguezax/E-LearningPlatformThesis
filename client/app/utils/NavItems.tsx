@@ -14,10 +14,6 @@ export const navItemsData = [
     name: "Sobre la Tesis",
     url: "/about",
   },
-  {
-    name: "FAQ",
-    url: "/faq",
-  },
 ];
 
 type Props = {
@@ -35,7 +31,7 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
               <span
                 className={`${
                   activeItem === index
-                    ? "dark:text-[#37a39a] text-[crimson]"
+                    ? "dark:text-[#1947E5] text-[#1947E5] font-semibold"
                     : "dark:text-white text-black"
                 } text-[18px] px-6 font-Poppins font-[400]`}
               >
@@ -46,12 +42,14 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
       </div>
       {isMobile && (
         <div className="800px:hidden mt-5">
-             <div className="w-full text-center py-6">
-            <Link href={"/"} passHref>
-              <span
-                className={`text-[25px] font-Poppins font-[500] text-black dark:text-white`}
-              >ELearning</span>
-            </Link>
+             <div className="w-full py-6 flex justify-center">
+            <Link href="/">
+                      <img
+                        src="https://res.cloudinary.com/dfgjenml4/image/upload/v1716154730/qghejkwqbzybrjxpkixj.png"
+                        alt="AruQhana"
+                        className=""
+                      />
+                  </Link>
           </div>
             {navItemsData &&
               navItemsData.map((i, index) => (
@@ -59,7 +57,7 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
                   <span
                     className={`${
                       activeItem === index
-                        ? "dark:text-[#37a39a] text-[crimson]"
+                        ? "dark:text-[#1947E5] text-[#145adc]"
                         : "dark:text-white text-black"
                     } block py-5 text-[18px] px-6 font-Poppins font-[400]`}
                   >

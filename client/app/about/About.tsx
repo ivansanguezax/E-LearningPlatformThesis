@@ -3,16 +3,16 @@ import { styles } from "../styles/styles";
 
 const About = () => {
   return (
-    <div className="text-black dark:text-white">
+    <div className="text-black dark:text-white h-screen">
       <br />
       <h1 className={`${styles.title} 800px:!text-[45px]`}>
-        PLATAFORMA E-LEARNING PARA NIÑOS CON
+        PLATAFORMA E-LEARNING PARA NIÑOS CON <br />
         <span className="text-gradient">
-          DISCAPACIDAD AUDITIVA DE 8 A 12 AÑOS
+           DISCAPACIDAD AUDITIVA DE 8 A 12 AÑOS
         </span>
       </h1>
       <h5 className="text-[18px] font-Poppins text-center">
-        Tesis de Grado para obtener el Título de Licenciatura en Informática
+        Tesis de Grado para obtener el Título de Licenciatura en Informática <br />
           Mención Ingeniería de Sistemas Informáticos
         </h5>
 
