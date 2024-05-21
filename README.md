@@ -42,11 +42,13 @@ AruQhana es actualmente un prototipo y se encuentra en desarrollo activo. Aunque
 #### 📂 Clonar el repositorio
    ```bash
    git clone [URL del repositorio]
-   cd [nombre del repositorio]```
+   cd [nombre del repositorio]
+```
 Clona el repositorio y navega al directorio del proyecto.
 #### 🔧 Instalar dependencias
  ```bash
- npm install ```
+ npm install
+```
 Este comando instalará todas las dependencias necesarias para el proyecto.
 
 #### ⚙️ Configurar variables de entorno
@@ -74,11 +76,13 @@ Este comando iniciará el servidor de desarrollo en modo local. Generalmente, es
 #### 📂 Clonar el repositorio
 ```bash
    git clone [URL del repositorio]
-   cd [nombre del repositorio]```
+   cd [nombre del repositorio]
+```
    Clona el repositorio y navega al directorio del proyecto.
 #### 🔧 Instalar dependencias
 ```bash
-npm install```
+npm install
+```
 Este comando instalará todas las dependencias necesarias para el proyecto.
 #### ⚙️ Configurar variables de entorno
 Crea un archivo .env en la raíz del proyecto y agrega las siguientes variables:
