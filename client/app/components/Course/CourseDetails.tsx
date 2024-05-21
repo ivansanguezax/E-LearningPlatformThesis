@@ -155,29 +155,30 @@ const CourseDetails = ({
       </div>
       <>
         {open && (
-          <div className="w-full h-screen bg-[#00000036] fixed top-0 left-0 z-50 flex items-center justify-center">
-            <div className="w-[500px] min-h-[500px] bg-white rounded-xl shadow p-3">
-              <div className="w-full flex justify-end">
-                <IoCloseOutline
-                  size={40}
-                  className="text-black cursor-pointer"
-                  onClick={() => setOpen(false)}
-                />
-              </div>
-              <div className="w-full">
-                {stripePromise && clientSecret && (
-                  <Elements stripe={stripePromise} options={{ clientSecret }}>
-                    <CheckOutForm
-                      setOpen={setOpen}
-                      data={data}
-                      user={user}
-                      refetch={refetch}
-                    />
-                  </Elements>
-                )}
-              </div>
-            </div>
-          </div>
+ <div className="w-full h-screen bg-[#00000036] fixed top-0 left-0 z-50 flex items-center justify-center">
+ <div className="w-[400px] min-h-[400px] bg-white rounded-xl text-black shadow p-5">
+   <div className="w-full flex justify-end">
+     <IoCloseOutline
+       size={40}
+       className="text-black cursor-pointer"
+       onClick={() => setOpen(false)}
+     />
+   </div>
+   <div className="w-full flex flex-col items-center justify-center space-y-4">
+     <h1 className="text-center text-xl font-bold">Ups! no estas inscrito</h1>
+     <Image
+       src="https://res.cloudinary.com/dfgjenml4/image/upload/v1716161299/c0fpzljz4xq6nvplovc7.png"
+       alt="Clase"
+       width={300}
+       height={200}
+       className="rounded"
+     />
+     <h2 className="mt-4 text-center text-lg font-semibold text-blue-500">
+       Pídele a tu profesor que active esta clase para ti
+     </h2>
+   </div>
+ </div>
+</div>
         )}
       </>
     </div>

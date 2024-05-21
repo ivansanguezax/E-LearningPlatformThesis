@@ -68,7 +68,7 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
                     activeItem === index
                       ? "dark:text-[#1947E5] text-[#145adc]"
                       : "dark:text-white text-black"
-                  } flex items-center block py-5 text-[18px] px-6 font-Poppins font-[400]`}
+                  } flex items-center py-5 text-[18px] px-6 font-Poppins font-[400]`}
                 >
                   <item.icon
                     className={`h-6 w-6 mr-2 ${
