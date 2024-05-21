@@ -136,7 +136,7 @@ const CourseContent: FC<Props> = ({
           return (
             <>
               <div
-                className={`w-full bg-[#cdc8c817] p-4 ${
+                className={`w-full bg-[#f2f2f2] rounded-lg p-4 ${
                   showSectionInput ? "mt-10" : "mb-0"
                 }`}
                 key={index}
@@ -316,7 +316,7 @@ const CourseContent: FC<Props> = ({
                     {/* add link button */}
                     <div className="inline-block mb-4">
                       <p
-                        className="flex items-center text-[18px] dark:text-white text-black cursor-pointer"
+                        className={`${styles.button} !w-[200px] !bg-blue-500 text-white my-1 font-Poppins cursor-not-allowed`}
                         onClick={() => handleAddLink(index)}
                       >
                         <BsLink45Deg className="mr-2" /> Agregar Link
@@ -329,7 +329,7 @@ const CourseContent: FC<Props> = ({
                 {index === courseContentData.length - 1 && (
                   <div>
                     <p
-                      className="flex items-center text-[18px] dark:text-white text-black cursor-pointer"
+                      className={`${styles.button} !w-[300px] !bg-blue-500 text-white my-1 font-Poppins cursor-not-allowed`}
                       onClick={(e: any) => newContentHandler(item)}
                     >
                       <AiOutlinePlusCircle className="mr-2" /> Agregar nuevo contenido
@@ -342,7 +342,7 @@ const CourseContent: FC<Props> = ({
         })}
         <br />
         <div
-          className="flex items-center text-[20px] dark:text-white text-black cursor-pointer"
+          className={`${styles.button} !bg-blue-700 text-white !w-[400px] my-3 font-Poppins cursor-not-allowed`}
           onClick={() => addNewSection()}
         >
           <AiOutlinePlusCircle className="mr-2" /> Agregar nueva sección
@@ -351,13 +351,13 @@ const CourseContent: FC<Props> = ({
       <br />
       <div className="w-full flex items-center justify-between">
         <div
-          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#1947E5] text-center text-[#fff] rounded mt-8 cursor-pointer"
+          className={`${styles.button} !w-[200px] my-3 font-Poppins cursor-not-allowed`}
           onClick={() => prevButton()}
         >
           Atras
         </div>
         <div
-          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#1947E5] text-center text-[#fff] rounded mt-8 cursor-pointer"
+          className={`${styles.button} !w-[200px] my-3 font-Poppins cursor-not-allowed`}
           onClick={() => handleOptions()}
         >
           Siguiente

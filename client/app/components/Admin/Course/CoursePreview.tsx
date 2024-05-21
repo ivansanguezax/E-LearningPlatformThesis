@@ -37,42 +37,38 @@ const CoursePreview: FC<Props> = ({
   return (
     <div className="w-[90%] m-auto py-5 mb-5">
       <div className="w-full relative">
-        <div className="w-full mt-10">
+        <div className="w-full mt-10 ">
           <CoursePlayer
             videoUrl={courseData?.demoUrl}
             title={courseData?.title}
           />
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center !text-black">
           <h1 className="pt-5 text-[25px]">
             {courseData?.price === 0 ? "Free" : courseData?.price + "hrs"}
           </h1>
           <h5 className="ml-3 pt-5 text-[25px]">
             {courseData?.estimatedPrice}Cupos
           </h5>
-
-          <h4 className="ml-3 pt-5 text-[25px]">
-            {discountPercentengePrice} Extras
-          </h4>
         </div>
 
-        <div className="flex items-center">
+        <div className="flex items-center ">
           <div
-            className={`${styles.button} !w-[200px] my-3 font-Poppins !bg-[crimson] cursor-not-allowed`}
+            className={`${styles.button} !w-[200px] my-3 font-Poppins cursor-not-allowed`}
           >
             Inscribirse ahora 
           </div>
         </div>
 
 
-        <p className="pb-1">• Material de aprendizaje divertido incluido</p>
-<p className="pb-1">• Acceso ilimitado para repasar siempre que quieras</p>
-<p className="pb-1">• Certificado especial de "Aventurero del Aprendizaje" al finalizar</p>
-<p className="pb-3 800px:pb-1">• Apoyo constante para todas tus preguntas</p>
+        <p className="pb-1 !text-black font-Poppins">• Material de aprendizaje divertido incluido</p>
+<p className="pb-1 !text-black  font-Poppins">• Acceso ilimitado para repasar siempre que quieras</p>
+<p className="pb-1 !text-black  font-Poppins">• Certificado especial de "Aventurero del Aprendizaje" al finalizar</p>
+<p className="pb-3 800px:pb-1 !text-black  font-Poppins">• Apoyo constante para todas tus preguntas</p>
 
 
       </div>
-      <div className="w-full">
+      <div className="mt-5 w-full !text-black ">
         <div className="w-full 800px:pr-5">
           <h1 className="text-[25px] font-Poppins font-[600]">
             {courseData?.name}
@@ -123,13 +119,13 @@ const CoursePreview: FC<Props> = ({
       </div>
       <div className="w-full flex items-center justify-between">
         <div
-          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#1947E5] text-center text-[#fff] rounded mt-8 cursor-pointer"
+          className={`${styles.button} !w-[200px] my-3 font-Poppins cursor-not-allowed`}
           onClick={() => prevButton()}
         >
           Atras
         </div>
         <div
-          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#1947E5] text-center text-[#fff] rounded mt-8 cursor-pointer"
+          className={`${styles.button} !w-[200px] my-3 font-Poppins cursor-not-allowed`}
           onClick={() => createCourse()}
         >
          {

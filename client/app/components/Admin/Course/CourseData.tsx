@@ -74,6 +74,7 @@ const CourseData: FC<Props> = ({
           />
         ))}
         <AiOutlinePlusCircle
+        className="text-[#1947E5]"
           style={{ margin: "10px 0px", cursor: "pointer", width: "30px" }}
           onClick={handleAddBenefit}
         />
@@ -98,19 +99,19 @@ const CourseData: FC<Props> = ({
         ))}
         <AiOutlinePlusCircle
           style={{ margin: "10px 0px", cursor: "pointer", width: "30px" }}
-
+          className="text-[#1947E5]"
           onClick={handleAddPrerequisites}
         />
       </div>
       <div className="w-full flex items-center justify-between">
       <div
-          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#1947E5] text-center text-[#fff] rounded mt-8 cursor-pointer"
+          className={`${styles.button} !w-[200px] my-3 font-Poppins cursor-not-allowed`}
           onClick={() => prevButton()}
         >
           Atras
         </div>
         <div
-          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#1947E5] text-center text-[#fff] rounded mt-8 cursor-pointer"
+          className={`${styles.button} !w-[200px] my-3 font-Poppins cursor-not-allowed`}
           onClick={() => handleOptions()}
         >
           Siguiente

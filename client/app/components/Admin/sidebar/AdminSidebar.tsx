@@ -219,15 +219,7 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
-            <Typography
-              variant="h5"
-              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              {!isCollapsed && "Personalización"}
-            </Typography>
-            <Item
+            {/* <Item
               title="Landing"
               to="/admin/hero"
               icon={<WebIcon />}
@@ -240,7 +232,7 @@ const Sidebar = () => {
               icon={<QuizIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             <Item
               title="Categorias"
               to="/admin/categories"

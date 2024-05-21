@@ -115,7 +115,7 @@ const CourseDetails = ({
               <CoursePlayer videoUrl={data?.demoUrl} title={data?.title} />
               <div className="flex items-center">
                 <h1 className="pt-5 text-[25px] text-black dark:text-white">
-                  {data.price === 0 ? "Sin cupos" : data.price + " Cupos"}
+                  {data.price === 0 ? "Sin contenido" : data.price + " Horas de contenido"}
                 </h1>
               </div>
               <div className="flex items-center">
