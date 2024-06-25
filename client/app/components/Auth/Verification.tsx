@@ -23,7 +23,7 @@ const Verification: FC<Props> = ({ setRoute }) => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Account activated successfully");
+      toast.success("Cuenta activada con éxito");
       setRoute("Login");
     }
     if (error) {
@@ -32,7 +32,7 @@ const Verification: FC<Props> = ({ setRoute }) => {
         toast.error(errorData.data.message);
         setInvalidError(true);
       } else {
-        console.log("An error occured:", error);
+        console.log("Ocurrió un error:", error);
       }
     }
   }, [isSuccess, error]);

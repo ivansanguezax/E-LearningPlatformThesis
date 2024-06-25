@@ -15,14 +15,14 @@ export const isAutheticated = CatchAsyncError(
 
     if (!access_token) {
       return next(
-        new ErrorHandler("Please login to access this resource", 400)
+        new ErrorHandler("Por favor, inicia sesión para acceder a este recurso", 400)
       );
     }
 
     const decoded = jwt.decode(access_token) as JwtPayload;
 
     if (!decoded) {
-      return next(new ErrorHandler("access token is not valid", 400));
+      return next(new ErrorHandler("El token de acceso no es válido", 400));
     }
 
     // check if the access token is expired
@@ -37,7 +37,7 @@ export const isAutheticated = CatchAsyncError(
 
       if (!user) {
         return next(
-          new ErrorHandler("Please login to access this resource", 400)
+          new ErrorHandler("Por favor, inicia sesión para acceder a este recurso", 400)
         );
       }
 
@@ -54,7 +54,7 @@ export const authorizeRoles = (...roles: string[]) => {
     if (!roles.includes(req.user?.role || "")) {
       return next(
         new ErrorHandler(
-          `Role: ${req.user?.role} is not allowed to access this resource`,
+          `Rol: ${req.user?.role} no tiene permiso para acceder a este recurso`,
           403
         )
       );

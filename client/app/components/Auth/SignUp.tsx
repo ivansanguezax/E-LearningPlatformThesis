@@ -159,7 +159,7 @@ const Signup: FC<Props> = ({ setRoute }) => {
 
         <div className="flex items-center justify-center my-3 p-3 bg-slate-200 rounded-lg">
           <h3 className="text-black mr-3 font-Poppins">Inicia con Google</h3>
-          <FcGoogle size={30} className="cursor-pointer" />
+          <FcGoogle size={30} className="cursor-pointer mr-2" />
         </div>
         <h5 className="text-center text-black pt-4 font-Poppins text-[14px]">
           ¿Ya tienes una cuenta?{" "}

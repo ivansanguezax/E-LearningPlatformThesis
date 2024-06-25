@@ -18,9 +18,9 @@ type Props = {
 
 const schema = Yup.object().shape({
   email: Yup.string()
-    .email("Invalid email!")
-    .required("Please enter your email!"),
-  password: Yup.string().required("Please enter your password!").min(6),
+    .email("Correo inválido!")
+    .required("Por favor, ingresa tu correo!"),
+  password: Yup.string().required("Por favor, introduce tu contraseña!").min(6),
 });
 
 const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
@@ -36,7 +36,7 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Login Successfully!");
+      toast.success("Inicio de sesión exitoso!");
       setOpen(false);
       refetch();
     }
@@ -67,7 +67,7 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
         <Image
           src="https://res.cloudinary.com/dfgjenml4/image/upload/v1716154730/qghejkwqbzybrjxpkixj.png"
           alt="AruQhana"
-          width={130}  
+          width={130}
           height={20}
         />
       </span>

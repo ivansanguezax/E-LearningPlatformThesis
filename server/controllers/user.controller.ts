@@ -57,14 +57,14 @@ export const registrationUser = CatchAsyncError(
       try {
         await sendMail({
           email: user.email,
-          subject: "Activate your account",
+          subject: "Activa tu cuenta",
           template: "activation-mail.ejs",
           data,
         });
 
         res.status(201).json({
           success: true,
-          message: `Please check your email: ${user.email} to activate your account!`,
+          message: `Por favor, revisa tu correo electrónico: ${user.email} para activar tu cuenta.`,
           activationToken: activationToken.token,
         });
       } catch (error: any) {
@@ -116,7 +116,7 @@ export const activateUser = CatchAsyncError(
       ) as { user: IUser; activationCode: string };
 
       if (newUser.activationCode !== activation_code) {
-        return next(new ErrorHandler("Invalid activation code", 400));
+        return next(new ErrorHandler("Código de activación inválido", 400));
       }
 
       const { name, email, password } = newUser.user;
@@ -124,7 +124,7 @@ export const activateUser = CatchAsyncError(
       const existUser = await userModel.findOne({ email });
 
       if (existUser) {
-        return next(new ErrorHandler("Email already exist", 400));
+        return next(new ErrorHandler("El correo electrónico ya existe", 400));
       }
       const user = await userModel.create({
         name,
@@ -156,18 +156,18 @@ export const loginUser = CatchAsyncError(
       const { email, password } = req.body as ILoginRequest;
 
       if (!email || !password) {
-        return next(new ErrorHandler("Please enter email and password", 400));
+        return next(new ErrorHandler("Por favor, introduce el correo electrónico y la contraseña", 400));
       }
 
       const user = await userModel.findOne({ email }).select("+password");
 
       if (!user) {
-        return next(new ErrorHandler("Invalid email or password", 400));
+        return next(new ErrorHandler("Correo electrónico o contraseña inválidos", 400));
       }
 
       const isPasswordMatch = await user.comparePassword(password);
       if (!isPasswordMatch) {
-        return next(new ErrorHandler("Invalid email or password", 400));
+        return next(new ErrorHandler("Correo electrónico o contraseña inválidos", 400));
       }
    console.log('dhhdh',user)
       sendToken(user, 200, res);
@@ -188,7 +188,7 @@ export const logoutUser = CatchAsyncError(
       redis.del(userId);
       res.status(200).json({
         success: true,
-        message: "Logged out successfully",
+        message: "Saliste de tu cuenta con éxito.",
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));
@@ -206,7 +206,7 @@ export const updateAccessToken = CatchAsyncError(
         process.env.REFRESH_TOKEN as string
       ) as JwtPayload;
 
-      const message = "Could not refresh token";
+      const message = "No tengo permiso para acceder a este recurso.";
       if (!decoded) {
         return next(new ErrorHandler(message, 400));
       }
@@ -214,7 +214,7 @@ export const updateAccessToken = CatchAsyncError(
          
       if (!session) {
         return next(
-          new ErrorHandler("Please login for access this resources!", 400)
+          new ErrorHandler("¡Por favor, inicia sesión para acceder a estos recursos!", 400)
         );
       }
       
@@ -330,19 +330,19 @@ export const updatePassword = CatchAsyncError(
       const { oldPassword, newPassword } = req.body as IUpdatePassword;
 
       if (!oldPassword || !newPassword) {
-        return next(new ErrorHandler("Please enter old and new password", 400));
+        return next(new ErrorHandler("Por favor, introduce la contraseña antigua y la nueva", 400));
       }
 
       const user = await userModel.findById(req.user?._id).select("+password");
 
       if (user?.password === undefined) {
-        return next(new ErrorHandler("Invalid user", 400));
+        return next(new ErrorHandler("Usuario inválido", 400));
       }
 
       const isPasswordMatch = await user?.comparePassword(oldPassword);
 
       if (!isPasswordMatch) {
-        return next(new ErrorHandler("Invalid old password", 400));
+        return next(new ErrorHandler("Contraseña antigua inválida", 400));
       }
 
       user.password = newPassword;
@@ -438,7 +438,7 @@ export const updateUserRole = CatchAsyncError(
       } else {
         res.status(400).json({
           success: false,
-          message: "User not found",
+          message: "Usuario no encontrado",
         });
       }
     } catch (error: any) {
@@ -456,7 +456,7 @@ export const deleteUser = CatchAsyncError(
       const user = await userModel.findById(id);
 
       if (!user) {
-        return next(new ErrorHandler("User not found", 404));
+        return next(new ErrorHandler("Usuario no encontrado", 404));
       }
 
       await user.deleteOne({ id });
@@ -465,7 +465,7 @@ export const deleteUser = CatchAsyncError(
 
       res.status(200).json({
         success: true,
-        message: "User deleted successfully",
+        message: "Usuario eliminado con éxito.",
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));

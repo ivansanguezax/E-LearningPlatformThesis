@@ -91,7 +91,7 @@ const Page = (props: Props) => {
             {
                 courses && courses.length === 0 && (
                     <p className={`${styles.label} justify-center min-h-[50vh] flex items-center`}>
-                    {search ? "No courses found!" : "No courses found in this category. Please try another one!"}
+                    {search ? "No se encontraron cursos con ese nombre" : "No hay cursos disponibles en esta categoría"}
                   </p>
                 )
             }

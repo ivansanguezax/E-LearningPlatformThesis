@@ -25,22 +25,22 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Please enter your name"],
+      required: [true, "Por favor, introduce tu nombre"],
     },
     email: {
       type: String,
-      required: [true, "Please enter your email"],
+      required: [true, "Por favor, introduce tu correo electrónico"],
       validate: {
         validator: function (value: string) {
           return emailRegexPattern.test(value);
         },
-        message: "please enter a valid email",
+        message: "Por favor, introduce un correo electrónico válido",
       },
       unique: true,
     },
     password: {
       type: String,
-      minlength: [6, "Password must be at least 6 characters"],
+      minlength: [6, "La contraseña debe tener al menos 6 caracteres"],
       select: false,
     },
     avatar: {
