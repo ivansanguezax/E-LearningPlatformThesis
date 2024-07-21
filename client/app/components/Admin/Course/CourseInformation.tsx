@@ -85,14 +85,12 @@ const CourseInformation: FC<Props> = ({
             }
             id="name"
             placeholder="Aquí va el nombre del curso"
-            className={`
-            ${styles.input}`}
+            className={`${styles.input}`}
           />
         </div>
         <br />
         <div className="mb-5">
-          <label className={`${styles.label}`}>Descripción del curso
-          </label>
+          <label className={`${styles.label}`}>Descripción del curso</label>
           <textarea
             name=""
             id=""
@@ -109,36 +107,34 @@ const CourseInformation: FC<Props> = ({
         <br />
         <div className="w-full flex justify-between">
           <div className="w-[45%]">
-            <label className={`${styles.label}`}>Duracion en horas</label>
+            <label className={`${styles.label}`}>Duración en minutos</label>
             <input
               type="number"
               name=""
               required
-              value={courseInfo.price}
+              value={courseInfo.duration}
               onChange={(e: any) =>
-                setCourseInfo({ ...courseInfo, price: e.target.value })
+                setCourseInfo({ ...courseInfo, duration: e.target.value })
               }
-              id="price"
-              placeholder="10"
-              className={`
-            ${styles.input}`}
+              id="duration"
+              placeholder="60"
+              className={`${styles.input}`}
             />
           </div>
           <div className="w-[50%]">
             <label className={`${styles.label} w-[50%]`}>
-            Número Máximo de Estudiantes
+              Número Máximo de Estudiantes
             </label>
             <input
               type="number"
               name=""
-              value={courseInfo.estimatedPrice}
+              value={courseInfo.maxStudents}
               onChange={(e: any) =>
-                setCourseInfo({ ...courseInfo, estimatedPrice: e.target.value })
+                setCourseInfo({ ...courseInfo, maxStudents: e.target.value })
               }
-              id="price"
+              id="maxStudents"
               placeholder="20"
-              className={`
-            ${styles.input}`}
+              className={`${styles.input}`}
             />
           </div>
         </div>
@@ -157,33 +153,9 @@ const CourseInformation: FC<Props> = ({
                 setCourseInfo({ ...courseInfo, tags: e.target.value })
               }
               id="tags"
-              placeholder="Matematicas, Fisica, Quimica, etc."
-              className={`
-            ${styles.input}`}
-            />
-          </div>
-          <div className="w-[50%]">
-            <label className={`${styles.label} w-[50%]`}>
-              Categoría del curso
-            </label>
-            <select
-              name=""
-              id=""
+              placeholder="Matemáticas, Física, Química, etc."
               className={`${styles.input}`}
-              value={courseInfo.category}
-              onChange={(e: any) =>
-                setCourseInfo({ ...courseInfo, categories: e.target.value })
-              }
-            >
-              <option value="">Selecciona una categoría
-              </option>
-              {categories &&
-                categories.map((item: any) => (
-                  <option value={item.title} key={item._id}>
-                    {item.title}
-                  </option>
-                ))}
-            </select>
+            />
           </div>
         </div>
         <br />
@@ -200,8 +172,7 @@ const CourseInformation: FC<Props> = ({
               }
               id="level"
               placeholder="Primaria, Secundaria"
-              className={`
-            ${styles.input}`}
+              className={`${styles.input}`}
             />
           </div>
           <div className="w-[50%]">
@@ -216,8 +187,7 @@ const CourseInformation: FC<Props> = ({
               }
               id="demoUrl"
               placeholder="eer74fd"
-              className={`
-            ${styles.input}`}
+              className={`${styles.input}`}
             />
           </div>
         </div>
@@ -257,7 +227,7 @@ const CourseInformation: FC<Props> = ({
           <input
             type="submit"
             value="Siguiente"
-            className={`${styles.button} !w-[200px] my-3 font-Poppins cursor-not-allowed`}
+            className={`${styles.button} !w-[200px] my-3 font-Poppins`}
           />
         </div>
         <br />

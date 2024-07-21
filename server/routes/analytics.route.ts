@@ -15,7 +15,7 @@ analyticsRouter.get(
 );
 
 analyticsRouter.get(
-  "/get-orders-analytics",
+  "/get-enrollments-analytics",
   isAutheticated,
   authorizeRoles("admin"),
   getOrderAnalytics

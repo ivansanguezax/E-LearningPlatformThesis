@@ -32,12 +32,11 @@ interface ICourseData extends Document {
   questions: IComment[];
 }
 
- export interface ICourse extends Document {
+export interface ICourse extends Document {
   name: string;
   description: string;
   categories: string;
-  price: number;
-  estimatedPrice?: number;
+  duration?: number; // Duración total del curso en minutos
   thumbnail: object;
   tags: string;
   level: string;
@@ -47,7 +46,8 @@ interface ICourseData extends Document {
   reviews: IReview[];
   courseData: ICourseData[];
   ratings?: number;
-  purchased: number;
+  enrolled: number; // Número de estudiantes inscritos
+  maxCapacity?: number; // Capacidad máxima de estudiantes (opcional)
 }
 
 const reviewSchema = new Schema<IReview>({
@@ -92,17 +92,14 @@ const courseSchema = new Schema<ICourse>({
   description: {
     type: String,
     required: true,
-  },
+  },  
   categories:{
-    type:String,
-    required: true,
+    type: String,
+    required: false,
   },
-  price: {
+  duration: {
     type: Number,
-    required: true,
-  },
-  estimatedPrice: {
-    type: Number,
+    required: false,
   },
   thumbnail: {
     public_id: {
@@ -127,17 +124,19 @@ const courseSchema = new Schema<ICourse>({
   benefits: [{title: String}],
   prerequisites: [{title: String}],
   reviews: [reviewSchema],
-   courseData: [courseDataSchema],
-   ratings:{
-     type: Number,
-     default: 0,
-   },
-   purchased:{
+  courseData: [courseDataSchema],
+  ratings:{
     type: Number,
     default: 0,
-   },
+  },
+  enrolled:{
+    type: Number,
+    default: 0,
+  },
+  maxCapacity: {
+    type: Number,
+  },
 },{timestamps: true});
-
 
 const CourseModel: Model<ICourse> = mongoose.model("Course", courseSchema);
 

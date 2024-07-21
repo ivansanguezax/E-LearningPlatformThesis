@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import CoursePlayer from "../../../utils/CoursePlayer";
 import { styles } from "../../../../app/styles/styles";
-import Ratings from "../../../../app/utils/Ratings";
 import { IoCheckmarkDoneOutline } from "react-icons/io5";
 
 type Props = {
@@ -19,13 +18,6 @@ const CoursePreview: FC<Props> = ({
   active,
   isEdit
 }) => {
-  const dicountPercentenge =
-    ((courseData?.estimatedPrice - courseData?.price) /
-      courseData?.estimatedPrice) *
-    100;
-
-  const discountPercentengePrice = dicountPercentenge.toFixed(0);
-
   const prevButton = () => {
     setActive(active - 1);
   };
@@ -37,36 +29,33 @@ const CoursePreview: FC<Props> = ({
   return (
     <div className="w-[90%] m-auto py-5 mb-5">
       <div className="w-full relative">
-        <div className="w-full mt-10 ">
+        <div className="w-full mt-10">
           <CoursePlayer
             videoUrl={courseData?.demoUrl}
-            title={courseData?.title}
+            title={courseData?.name}
           />
         </div>
         <div className="flex items-center !text-black">
           <h1 className="pt-5 text-[25px]">
-            {courseData?.price === 0 ? "Free" : courseData?.price + "hrs"}
+            Duración: {courseData?.duration} minutos
           </h1>
-          <h5 className="ml-3 pt-5 text-[25px]">
-            {courseData?.estimatedPrice}Cupos
+        </div>
+        <div className="flex items-center">
+          <h5 className="pt-5 text-[20px]">
+            Capacidad máxima: {courseData?.maxCapacity || "Ilimitada"} estudiantes
           </h5>
         </div>
 
         <div className="flex items-center ">
-          <div
-            className={`${styles.button} !w-[200px] my-3 font-Poppins cursor-not-allowed`}
-          >
+          <div className={`${styles.button} !w-[200px] my-3 font-Poppins`}>
             Inscribirse ahora 
           </div>
         </div>
 
-
         <p className="pb-1 !text-black font-Poppins">• Material de aprendizaje divertido incluido</p>
-<p className="pb-1 !text-black  font-Poppins">• Acceso ilimitado para repasar siempre que quieras</p>
-<p className="pb-1 !text-black  font-Poppins">• Certificado especial de "Aventurero del Aprendizaje" al finalizar</p>
-<p className="pb-3 800px:pb-1 !text-black  font-Poppins">• Apoyo constante para todas tus preguntas</p>
-
-
+        <p className="pb-1 !text-black font-Poppins">• Acceso ilimitado para repasar siempre que quieras</p>
+        <p className="pb-1 !text-black font-Poppins">• Certificado especial de "Aventurero del Aprendizaje" al finalizar</p>
+        <p className="pb-3 800px:pb-1 !text-black font-Poppins">• Apoyo constante para todas tus preguntas</p>
       </div>
       <div className="mt-5 w-full !text-black ">
         <div className="w-full 800px:pr-5">
@@ -74,12 +63,11 @@ const CoursePreview: FC<Props> = ({
             {courseData?.name}
           </h1>
           <div className="flex items-center justify-between pt-3">
-            
-            <h5>0 Estudiantes inscritos</h5>
+            <h5>{courseData?.enrolled || 0} Estudiantes inscritos</h5>
           </div>
           <br />
           <h1 className="text-[25px] font-Poppins font-[600]">
-            Que aprenderas en este curso?
+            ¿Qué aprenderás en este curso?
           </h1>
         </div>
         {courseData?.benefits?.map((item: any, index: number) => (
@@ -93,7 +81,7 @@ const CoursePreview: FC<Props> = ({
         <br />
         <br />
         <h1 className="text-[25px] font-Poppins font-[600]">
-          Cuales son los requisitos previos de este curso?
+          ¿Cuáles son los requisitos previos de este curso?
         </h1>
         {courseData?.prerequisites?.map((item: any, index: number) => (
           <div className="w-full flex 800px:items-center py-2" key={index}>
@@ -105,7 +93,6 @@ const CoursePreview: FC<Props> = ({
         ))}
         <br />
         <br />
-        {/* course description */}
         <div className="w-full">
           <h1 className="text-[25px] font-Poppins font-[600]">
             Detalles del curso
@@ -119,18 +106,16 @@ const CoursePreview: FC<Props> = ({
       </div>
       <div className="w-full flex items-center justify-between">
         <div
-          className={`${styles.button} !w-[200px] my-3 font-Poppins cursor-not-allowed`}
+          className={`${styles.button} !w-[200px] my-3 font-Poppins`}
           onClick={() => prevButton()}
         >
-          Atras
+          Atrás
         </div>
         <div
-          className={`${styles.button} !w-[200px] my-3 font-Poppins cursor-not-allowed`}
+          className={`${styles.button} !w-[200px] my-3 font-Poppins`}
           onClick={() => createCourse()}
         >
-         {
-          isEdit ? 'Actualizar Curso' : 'Crear curso'
-         }
+         {isEdit ? 'Actualizar Curso' : 'Crear curso'}
         </div>
       </div>
     </div>

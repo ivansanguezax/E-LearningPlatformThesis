@@ -6,10 +6,9 @@ import cookieParser from "cookie-parser";
 import { ErrorMiddleware } from "./middleware/error";
 import userRouter from "./routes/user.route";
 import courseRouter from "./routes/course.route";
-import orderRouter from "./routes/order.route";
+import enrollmentRouter from "./routes/enrollment.route";
 import notificationRouter from "./routes/notification.route";
 import analyticsRouter from "./routes/analytics.route";
-import layoutRouter from "./routes/layout.route";
 import { rateLimit } from 'express-rate-limit'
 
 // body parser
@@ -38,17 +37,16 @@ const limiter = rateLimit({
 app.use(
   "/api/v1",
   userRouter,
-  orderRouter,
+  enrollmentRouter,
   courseRouter,
   notificationRouter,
   analyticsRouter,
-  layoutRouter
 );
 
 // testing api
 app.get("/test", (req: Request, res: Response, next: NextFunction) => {
   res.status(200).json({
-    succcess: true,
+    success: true,
     message: "API is working",
   });
 });

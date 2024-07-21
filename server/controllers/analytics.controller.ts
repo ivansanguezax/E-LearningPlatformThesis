@@ -4,7 +4,7 @@ import { CatchAsyncError } from "../middleware/catchAsyncError";
 import { generateLast12MothsData } from "../utils/analytics.generator";
 import userModel from "../models/user.model";
 import CourseModel from "../models/course.model";
-import OrderModel from "../models/orderMoldel";
+import OrderModel from "../models/enrollment.Model";
 
 // get users analytics --- only for admin
 export const getUsersAnalytics = CatchAsyncError(
@@ -46,7 +46,7 @@ export const getOrderAnalytics = CatchAsyncError(
 
       res.status(200).json({
         success: true,
-        orders,
+        enrollments: orders,
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 500));

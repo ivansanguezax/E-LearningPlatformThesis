@@ -32,13 +32,13 @@ const CreateCourse = (props: Props) => {
   const [courseInfo, setCourseInfo] = useState({
     name: "",
     description: "",
-    price: "",
-    estimatedPrice: "",
+    duration: "", // Duración del curso en minutos
     tags: "",
     level: "",
-    categories:"",
+    categories: "",
     demoUrl: "",
     thumbnail: "",
+    maxCapacity: "", // Capacidad máxima de estudiantes (opcional)
   });
   const [benefits, setBenefits] = useState([{ title: "" }]);
   const [prerequisites, setPrerequisites] = useState([{ title: "" }]);
@@ -59,9 +59,7 @@ const CreateCourse = (props: Props) => {
     },
   ]);
 
-
   const [courseData, setCourseData] = useState({});
-
 
   const handleSubmit = async () => {
     // Format benefits array
@@ -89,13 +87,12 @@ const CreateCourse = (props: Props) => {
       })
     );
 
-    //   prepare our data object
+    // prepare our data object
     const data = {
       name: courseInfo.name,
       description: courseInfo.description,
       categories: courseInfo.categories,
-      price: courseInfo.price,
-      estimatedPrice: courseInfo.estimatedPrice,
+      duration: courseInfo.duration,
       tags: courseInfo.tags,
       thumbnail: courseInfo.thumbnail,
       level: courseInfo.level,
@@ -104,6 +101,7 @@ const CreateCourse = (props: Props) => {
       benefits: formattedBenefits,
       prerequisites: formattedPrerequisites,
       courseData: formattedCourseContentData,
+      maxCapacity: courseInfo.maxCapacity,
     };
     setCourseData(data);
   };

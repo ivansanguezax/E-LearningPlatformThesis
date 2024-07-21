@@ -3,6 +3,7 @@ import React, { FC, useEffect, useState } from "react";
 import Heading from "./utils/Heading";
 import Header from "./components/Header";
 import Courses from "./components/Route/Courses";
+import Footer from "./components/Footer";
 
 
 
@@ -28,6 +29,7 @@ const Page: FC<Props> = (props) => {
         route={route}
       />
       <Courses />
+      <Footer />
     </div>
   );
 };

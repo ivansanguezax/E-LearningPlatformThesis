@@ -26,9 +26,10 @@ const AllCourses = (props: Props) => {
   );
   const [deleteCourse, { isSuccess, error }] = useDeleteCourseMutation({});
   const columns = [
-    { field: "title", headerName: "Titulo del Curso", flex: 1 },
-    { field: "purchased", headerName: "Inscripciones", flex: 0.5 },
-    { field: "created_at", headerName: "Fecha de Creacion", flex: 0.5 },
+    { field: "title", headerName: "Título del Curso", flex: 1 },
+    { field: "enrolled", headerName: "Inscritos", flex: 0.5 },
+    { field: "duration", headerName: "Duración (min)", flex: 0.5 },
+    { field: "created_at", headerName: "Fecha de Creación", flex: 0.5 },
     {
       field: "  ",
       headerName: "Editar",
@@ -75,8 +76,8 @@ const AllCourses = (props: Props) => {
         rows.push({
           id: item._id,
           title: item.name,
-          ratings: item.ratings,
-          purchased: item.purchased,
+          enrolled: item.enrolled,
+          duration: item.duration,
           created_at: format(item.createdAt),
         });
       });
@@ -94,7 +95,7 @@ const AllCourses = (props: Props) => {
         toast.error(errorMessage.data.message);
       }
     }
-  }, [isSuccess, error,refetch]);
+  }, [isSuccess, error, refetch]);
 
   const handleDelete = async () => {
     const id = courseId;
@@ -170,7 +171,7 @@ const AllCourses = (props: Props) => {
             >
               <Box className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[450px] bg-white dark:bg-slate-900 rounded-[8px] shadow p-4 outline-none">
                 <h1 className={`${styles.title}`}>
-                  Estas seguro que deseas eliminar este curso?
+                  ¿Estás seguro que deseas eliminar este curso?
                 </h1>
                 <div className="flex w-full items-center justify-between mb-6 mt-4">
                   <div

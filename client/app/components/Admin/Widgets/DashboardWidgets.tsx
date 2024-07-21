@@ -3,10 +3,10 @@ import UserAnalytics from "../Analytics/UserAnalytics";
 import { BiBorderLeft } from "react-icons/bi";
 import { PiUsersFourLight } from "react-icons/pi";
 import { Box, CircularProgress } from "@mui/material";
-import OrdersAnalytics from "../Analytics/OrdersAnalytics";
-import AllInvoices from "../Order/AllInvoices";
+import EnrollmentsAnalytics from "../Analytics/EnrollmentsAnalytics";
+import AllEnrollments from "../Enrollments/AllEnrollments";
 import {
-  useGetOrdersAnalyticsQuery,
+  useGetEnrollmentsAnalyticsQuery,
   useGetUsersAnalyticsQuery,
 } from "@/redux/features/analytics/analyticsApi";
 
@@ -43,53 +43,53 @@ const CircularProgressWithLabel: FC<Props> = ({ open, value }) => {
 };
 
 const DashboardWidgets: FC<Props> = ({ open }) => {
-  const [ordersComparePercentage, setOrdersComparePercentage] = useState<any>();
-  const [userComparePercentage, setuserComparePercentage] = useState<any>();
+  const [enrollmentsComparePercentage, setEnrollmentsComparePercentage] = useState<any>();
+  const [userComparePercentage, setUserComparePercentage] = useState<any>();
 
   const { data, isLoading } = useGetUsersAnalyticsQuery({});
-  const { data: ordersData, isLoading: ordersLoading } =
-    useGetOrdersAnalyticsQuery({});
+  const { data: enrollmentsData, isLoading: enrollmentsLoading } =
+  useGetEnrollmentsAnalyticsQuery({});
 
   useEffect(() => {
-    if (isLoading && ordersLoading) {
+    if (isLoading && enrollmentsLoading) {
       return;
     } else {
-      if (data && ordersData) {
+      if (data && enrollmentsData) {
         const usersLastTwoMonths = data.users.last12Months.slice(-2);
-        const ordersLastTwoMonths = ordersData.orders.last12Months.slice(-2);
+        const enrollmentsLastTwoMonths = enrollmentsData.enrollments.last12Months.slice(-2);
 
         if (
           usersLastTwoMonths.length === 2 &&
-          ordersLastTwoMonths.length === 2
+          enrollmentsLastTwoMonths.length === 2
         ) {
           const usersCurrentMonth = usersLastTwoMonths[1].count;
           const usersPreviousMonth = usersLastTwoMonths[0].count;
-          const ordersCurrentMonth = ordersLastTwoMonths[1].count;
-          const ordersPreviousMonth = ordersLastTwoMonths[0].count;
+          const enrollmentsCurrentMonth = enrollmentsLastTwoMonths[1].count;
+          const enrollmentsPreviousMonth = enrollmentsLastTwoMonths[0].count;
 
           const usersPercentChange = usersPreviousMonth !== 0 ?
             ((usersCurrentMonth - usersPreviousMonth) / usersPreviousMonth) *
             100 : 100;
 
-          const ordersPercentChange = ordersPreviousMonth !== 0 ?
-            ((ordersCurrentMonth - ordersPreviousMonth) / ordersPreviousMonth) *
+          const enrollmentsPercentChange = enrollmentsPreviousMonth !== 0 ?
+            ((enrollmentsCurrentMonth - enrollmentsPreviousMonth) / enrollmentsPreviousMonth) *
             100 : 100;
 
-          setuserComparePercentage({
+          setUserComparePercentage({
             currentMonth: usersCurrentMonth,
             previousMonth: usersPreviousMonth,
             percentChange: usersPercentChange,
           });
 
-          setOrdersComparePercentage({
-            currentMonth: ordersCurrentMonth,
-            previousMonth: ordersPreviousMonth,
-            percentChange: ordersPercentChange,
+          setEnrollmentsComparePercentage({
+            currentMonth: enrollmentsCurrentMonth,
+            previousMonth: enrollmentsPreviousMonth,
+            percentChange: enrollmentsPercentChange,
           });
         }
       }
     }
-  }, [isLoading, ordersLoading, data, ordersData]);
+  }, [isLoading, enrollmentsLoading, data, enrollmentsData]);
 
   return (
     <div className="mt-[30px] min-h-screen">
@@ -104,13 +104,16 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
               <div className="">
                 <BiBorderLeft className="dark:text-[#45CBA0] text-[#000] text-[30px]" />
                 <h5 className="pt-2 font-Poppins dark:text-[#fff] text-black text-[20px]">
-                  {ordersComparePercentage?.currentMonth}
+                  {enrollmentsComparePercentage?.currentMonth}
                 </h5>
                 <h5 className="py-2 font-Poppins dark:text-[#45CBA0] text-black text-[20px] font-[400]">
                   Inscripciones
                 </h5>
               </div>
-             
+              <CircularProgressWithLabel 
+                value={enrollmentsComparePercentage?.percentChange} 
+                open={open}
+              />
             </div>
           </div>
 
@@ -125,7 +128,10 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
                   Nuevos Estudiantes
                 </h5>
               </div>
-              
+              <CircularProgressWithLabel 
+                value={userComparePercentage?.percentChange} 
+                open={open}
+              />
             </div>
           </div>
         </div>
@@ -133,13 +139,13 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
 
       <div className="grid grid-cols-[65%,35%] mt-[-20px] ">
         <div className="dark:bg-[#111c43] w-[94%] mt-[30px] h-[40vh] !bg-white shadow-custom rounded-lg m-auto pt-5">
-          <OrdersAnalytics isDashboard={true} />
+          <EnrollmentsAnalytics isDashboard={true} />
         </div>
         <div className="p-5">
           <h5 className="dark:text-[#fff] text-black text-[20px] font-[400] font-Poppins pb-3">
             Estudiantes recientes
           </h5>
-          <AllInvoices isDashboard={true} />
+          <AllEnrollments isDashboard={true} />
         </div>
       </div>
     </div>

@@ -8,17 +8,13 @@ import {
   ArrowForwardIosIcon,
   ArrowBackIosIcon,
   PeopleOutlinedIcon,
-  ReceiptOutlinedIcon,
   BarChartOutlinedIcon,
   MapOutlinedIcon,
   GroupsIcon,
   OndemandVideoIcon,
   VideoCallIcon,
-  WebIcon,
-  QuizIcon,
   WysiwygIcon,
   ManageHistoryIcon,
-  SettingsIcon,
   ExitToAppIcon,
 } from "./Icon";
 import avatarDefault from "../../../../public/assets/avatar.png";
@@ -100,7 +96,7 @@ const Sidebar = () => {
           top: 0,
           left: 0,
           height: "100vh",
-          zIndex:99999999999999,
+          zIndex: 99999999999999,
           width: isCollapsed ? "0%" : "16%",
         }}
       >
@@ -192,8 +188,8 @@ const Sidebar = () => {
 
             <Item
               title="Inscripciones"
-              to="/admin/invoices"
-              icon={<ReceiptOutlinedIcon />}
+              to="/admin/enrollments"
+              icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -219,27 +215,6 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            {/* <Item
-              title="Landing"
-              to="/admin/hero"
-              icon={<WebIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Preguntas"
-              to="/admin/faq"
-              icon={<QuizIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
-            <Item
-              title="Categorias"
-              to="/admin/categories"
-              icon={<WysiwygIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
 
             <Typography
               variant="h5"
@@ -261,7 +236,7 @@ const Sidebar = () => {
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}
             >
-              {!isCollapsed && "Analiticas"}
+              {!isCollapsed && "Analíticas"}
             </Typography>
             <Item
               title="Data de Cursos"
@@ -272,7 +247,7 @@ const Sidebar = () => {
             />
             <Item
               title="Data de Inscripciones"
-              to="/admin/orders-analytics"
+              to="/admin/enrollments-analytics"
               icon={<MapOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

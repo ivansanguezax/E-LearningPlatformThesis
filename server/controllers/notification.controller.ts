@@ -28,7 +28,7 @@ export const updateNotification = CatchAsyncError(
     try {
       const notification = await NotificationModel.findById(req.params.id);
       if (!notification) {
-        return next(new ErrorHandler("Notification not found", 404));
+        return next(new ErrorHandler("Notificación no encontrada", 404));
       } else {
         notification.status
           ? (notification.status = "read")
@@ -55,5 +55,5 @@ export const updateNotification = CatchAsyncError(
 cron.schedule("0 0 0 * * *", async() => {
   const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
   await NotificationModel.deleteMany({status:"read",createdAt: {$lt: thirtyDaysAgo}});
-  console.log('Deleted read notifications');
+  console.log('Notificaciones eliminadas');
 });

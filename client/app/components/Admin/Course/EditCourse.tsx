@@ -35,7 +35,6 @@ const EditCourse:FC<Props> = ({id}) => {
     }
   }, [isSuccess, error]);
 
-
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -43,13 +42,13 @@ const EditCourse:FC<Props> = ({id}) => {
       setCourseInfo({
         name: editCourseData.name,
         description: editCourseData.description,
-        price: editCourseData.price,
-        estimatedPrice: editCourseData?.estimatedPrice,
+        duration: editCourseData.duration,
         tags: editCourseData.tags,
         level: editCourseData.level,
-        categories:editCourseData.categories,
+        categories: editCourseData.categories,
         demoUrl: editCourseData.demoUrl,
         thumbnail: editCourseData?.thumbnail?.url,
+        maxCapacity: editCourseData.maxCapacity,
       })
       setBenefits(editCourseData.benefits);
       setPrerequisites(editCourseData.prerequisites);
@@ -57,17 +56,16 @@ const EditCourse:FC<Props> = ({id}) => {
     }
   }, [editCourseData]);
 
-
   const [courseInfo, setCourseInfo] = useState({
     name: "",
-    description:  "",
-    price:  "",
-    estimatedPrice:  "",
+    description: "",
+    duration: "",
     tags: "",
-    level:  "",
-    categories:"",
-    demoUrl:  "",
-    thumbnail:  "",
+    level: "",
+    categories: "",
+    demoUrl: "",
+    thumbnail: "",
+    maxCapacity: "",
   });
   const [benefits, setBenefits] = useState([{ title: "" }]);
   const [prerequisites, setPrerequisites] = useState([{ title: "" }]);
@@ -88,7 +86,6 @@ const EditCourse:FC<Props> = ({id}) => {
   ]);
 
   const [courseData, setCourseData] = useState({});
-
 
   const handleSubmit = async () => {
     // Format benefits array
@@ -115,13 +112,12 @@ const EditCourse:FC<Props> = ({id}) => {
       })
     );
 
-    //   prepare our data object
+    // prepare our data object
     const data = {
       name: courseInfo.name,
       description: courseInfo.description,
       categories: courseInfo.categories,
-      price: courseInfo.price,
-      estimatedPrice: courseInfo.estimatedPrice,
+      duration: courseInfo.duration,
       tags: courseInfo.tags,
       thumbnail: courseInfo.thumbnail,
       level: courseInfo.level,
@@ -130,11 +126,11 @@ const EditCourse:FC<Props> = ({id}) => {
       benefits: formattedBenefits,
       prerequisites: formattedPrerequisites,
       courseContent: formattedCourseContentData,
+      maxCapacity: courseInfo.maxCapacity,
     };
 
     setCourseData(data);
   };
-
 
   const handleCourseCreate = async (e: any) => {
     const data = courseData;
