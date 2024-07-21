@@ -3,7 +3,7 @@ import { styles } from "../styles/styles";
 
 const About = () => {
   return (
-    <div className="text-black dark:text-white h-screen">
+    <div className="text-black  h-screen">
       <br />
       <h1 className={`${styles.title} 800px:!text-[45px]`}>
         PLATAFORMA E-LEARNING PARA NIÑOS CON <br />

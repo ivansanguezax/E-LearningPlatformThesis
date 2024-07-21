@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Modal } from "@mui/material";
 import { AiOutlineDelete, AiOutlineMail } from "react-icons/ai";
-import { useTheme } from "next-themes";
 import Loader from "../../Loader/Loader";
 import { format } from "timeago.js";
 import {
@@ -18,7 +17,6 @@ type Props = {
 };
 
 const AllCourses: FC<Props> = ({ isTeam }) => {
-  const { theme, setTheme } = useTheme();
   const [active, setActive] = useState(false);
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("admin");
@@ -79,7 +77,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
               }}
             >
               <AiOutlineDelete
-                className="dark:text-white text-black"
+                className="text-black"
                 size={20}
               />
             </Button>
@@ -95,7 +93,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
         return (
           <>
             <a href={`mailto:${params.row.email}`}>
-              <AiOutlineMail className="dark:text-white text-black" size={20} />
+              <AiOutlineMail className="text-black" size={20} />
             </a>
           </>
         );
@@ -152,7 +150,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
           {isTeam && (
             <div className="w-full flex justify-end">
               <div
-                className={`${styles.button} !w-[3  00px] !rounded-[10px] dark:bg-[#57c7a3] !h-[35px] dark:border dark:border-[#ffffff6c]`}
+                className={`${styles.button} !w-[300px] !rounded-[10px] bg-[#57c7a3] !h-[35px] border border-[#00000052]`}
                 onClick={() => setActive(!active)}
               >
                 Agregar nuevo Profesor
@@ -168,46 +166,42 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
                 outline: "none",
               },
               "& .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon": {
-                color: theme === "dark" ? "#fff" : "#000",
+                color: "#000",
               },
               "& .MuiDataGrid-sortIcon": {
-                color: theme === "dark" ? "#fff" : "#000",
+                color: "#000",
               },
               "& .MuiDataGrid-row": {
-                color: theme === "dark" ? "#fff" : "#000",
-                borderBottom:
-                  theme === "dark"
-                    ? "1px solid #ffffff30!important"
-                    : "1px solid #ccc!important",
+                color: "#000",
+                borderBottom: "1px solid #ccc!important",
               },
               "& .MuiTablePagination-root": {
-                color: theme === "dark" ? "#fff" : "#000",
+                color: "#000",
               },
               "& .MuiDataGrid-cell": {
                 borderBottom: "none!important",
               },
               "& .name-column--cell": {
-                color: theme === "dark" ? "#fff" : "#000",
+                color: "#000",
               },
               "& .MuiDataGrid-columnHeaders": {
-                backgroundColor: theme === "dark" ? "#3e4396" : "#A4A9FC",
+                backgroundColor: "#A4A9FC",
                 borderBottom: "none",
-                color: theme === "dark" ? "#fff" : "#000",
+                color: "#000",
               },
               "& .MuiDataGrid-virtualScroller": {
-                backgroundColor: theme === "dark" ? "#1F2A40" : "#F2F0F0",
+                backgroundColor: "#F2F0F0",
               },
               "& .MuiDataGrid-footerContainer": {
-                color: theme === "dark" ? "#fff" : "#000",
+                color: "#000",
                 borderTop: "none",
-                backgroundColor: theme === "dark" ? "#3e4396" : "#A4A9FC",
+                backgroundColor: "#A4A9FC",
               },
               "& .MuiCheckbox-root": {
-                color:
-                  theme === "dark" ? `#b7ebde !important` : `#000 !important`,
+                color: "#000 !important",
               },
               "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-                color: `#fff !important`,
+                color: "#fff !important",
               },
             }}
           >
@@ -220,7 +214,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <Box className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[450px] bg-white dark:bg-slate-900 rounded-[8px] shadow p-4 outline-none">
+              <Box className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[450px] bg-white rounded-[8px] shadow p-4 outline-none">
                 <h1 className={`${styles.title}`}>Agregar nuevo profesor
                 </h1>
                 <div className="mt-4">
@@ -259,7 +253,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <Box className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[450px] bg-white dark:bg-slate-900 rounded-[8px] shadow p-4 outline-none">
+              <Box className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[450px] bg-white rounded-[8px] shadow p-4 outline-none">
                 <h1 className={`${styles.title}`}>
                   Estas seguro que quieres eliminar este usuario?
                 </h1>

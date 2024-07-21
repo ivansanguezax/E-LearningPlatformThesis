@@ -153,7 +153,7 @@ const Signup: FC<Props> = ({ setRoute }) => {
           />
         </div>
         <br />
-        <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">
+        <h5 className="text-center pt-4 font-Poppins text-[14px] text-black ">
           O únete con
         </h5>
 

@@ -78,13 +78,13 @@ const EditHero: FC<Props> = (props: Props) => {
               className="hidden"
             />
             <label htmlFor="banner" className="absolute bottom-0 right-0 z-20">
-              <AiOutlineCamera className="dark:text-white text-black text-[18px] cursor-pointer" />
+              <AiOutlineCamera className=" text-black text-[18px] cursor-pointer" />
             </label>
           </div>
         </div>
         <div className="1000px:w-[60%] flex flex-col items-center 1000px:mt-[0px] text-center 1000px:text-left mt-[150px]">
           <textarea
-            className="dark:text-white resize-none text-[#000000c7] text-[30px] px-3 w-full 1000px:text-[60px] 1500px:text-[70px] font-[600] font-Josefin py-2 1000px:leading-[75px] 1500px:w-[60%] 1100px:w-[78%] outline-none bg-transparent block"
+            className=" resize-none text-[#000000c7] text-[30px] px-3 w-full 1000px:text-[60px] 1500px:text-[70px] font-[600] font-Josefin py-2 1000px:leading-[75px] 1500px:w-[60%] 1100px:w-[78%] outline-none bg-transparent block"
             placeholder="Descrubre tu potencial con nosotros."
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -95,7 +95,7 @@ const EditHero: FC<Props> = (props: Props) => {
             value={subTitle}
             onChange={(e) => setSubTitle(e.target.value)}
             placeholder="Aprende de los mejores profesionales en el área."
-            className="dark:text-[#edfff4] text-[#000000ac] font-Josefin font-[600] text-[18px] 1500px:!w-[55%] 1100px:!w-[74%] bg-transparent outline-none resize-none"
+            className=" text-[#000000ac] font-Josefin font-[600] text-[18px] 1500px:!w-[55%] 1100px:!w-[74%] bg-transparent outline-none resize-none"
           ></textarea>
           <br />
           <br />
@@ -103,7 +103,7 @@ const EditHero: FC<Props> = (props: Props) => {
           <div
             className={`${
               styles.button
-            } !w-[100px] !min-h-[40px] !h-[40px] dark:text-white text-black bg-[#cccccc34] 
+            } !w-[100px] !min-h-[40px] !h-[40px]  text-black bg-[#cccccc34] 
           ${
             data?.layout?.banner?.title !== title ||
             data?.layout?.banner?.subTitle !== subTitle ||

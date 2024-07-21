@@ -44,17 +44,17 @@ const CourseDetails = ({
       <div className="w-[90%] 800px:w-[90%] m-auto py-5">
         <div className="w-full flex flex-col-reverse 800px:flex-row gap-12">
           <div className="w-full 800px:w-[65%] 800px:pr-5">
-            <h1 className="text-[45px] font-Poppins font-[600] text-black dark:text-white">
+            <h1 className="text-[45px] font-Poppins font-[600] text-black ">
               {data.name}
             </h1>
             <div className="flex items-center justify-between pt-3">
-              <h5 className="text-black dark:text-white font-Poppins ">
+              <h5 className="text-black  font-Poppins ">
                 {data.enrolled} Estudiantes inscritos
               </h5>
             </div>
 
             <br />
-            <h1 className="text-[20px] font-Poppins font-[600] text-black dark:text-white">
+            <h1 className="text-[20px] font-Poppins font-[600] text-black ">
               ¿Qué aprenderás en este curso?
             </h1>
             <div>
@@ -66,10 +66,10 @@ const CourseDetails = ({
                   <div className="w-[15px] mr-1">
                     <IoCheckmarkDoneOutline
                       size={20}
-                      className="text-black dark:text-white"
+                      className="text-black "
                     />
                   </div>
-                  <p className="pl-2 text-black dark:text-white font-Poppins">
+                  <p className="pl-2 text-black  font-Poppins">
                     {item.title}
                   </p>
                 </div>
@@ -78,7 +78,7 @@ const CourseDetails = ({
               <br />
             </div>
             <div>
-              <h1 className="text-[20px] font-Poppins font-[600] text-black dark:text-white">
+              <h1 className="text-[20px] font-Poppins font-[600] text-black ">
                 Contenido del curso
               </h1>
               <CourseContentList data={data?.courseData} isDemo={true} />
@@ -86,10 +86,10 @@ const CourseDetails = ({
             <br />
             <br />
             <div className="w-full">
-              <h1 className="text-[20px] font-Poppins font-[600] text-black dark:text-white">
+              <h1 className="text-[20px] font-Poppins font-[600] text-black ">
                 Descripción del curso
               </h1>
-              <p className="text-[18px] mt-[20px] whitespace-pre-line w-full overflow-hidden text-black dark:text-white">
+              <p className="text-[18px] mt-[20px] whitespace-pre-line w-full overflow-hidden text-black ">
                 {data.description}
               </p>
             </div>
@@ -100,8 +100,8 @@ const CourseDetails = ({
             <div className="sticky top-[100px] left-0 z-50 w-full">
               <CoursePlayer videoUrl={data?.demoUrl} title={data?.title} />
               <div className="flex items-center mt-5">
-                <AiOutlineClockCircle size={20} className="text-black dark:text-white mr-2" />
-                <h1 className="text-[25px] text-black dark:text-white">
+                <AiOutlineClockCircle size={20} className="text-black  mr-2" />
+                <h1 className="text-[25px] text-black ">
                   {data.duration} minutos de contenido
                 </h1>
               </div>
@@ -123,17 +123,17 @@ const CourseDetails = ({
                 )}
               </div>
               <br />
-              <p className="pb-1 text-black dark:text-white font-Poppins">
+              <p className="pb-1 text-black  font-Poppins">
                 • Material de aprendizaje divertido incluido
               </p>
-              <p className="pb-1 text-black dark:text-white font-Poppins">
+              <p className="pb-1 text-black  font-Poppins">
                 • Acceso ilimitado para repasar siempre que quieras
               </p>
-              <p className="pb-1 text-black dark:text-white font-Poppins">
+              <p className="pb-1 text-black  font-Poppins">
                 • Certificado especial de "Aventurero del Aprendizaje" al
                 finalizar
               </p>
-              <p className="pb-3 800px:pb-1 text-black dark:text-white font-Poppins">
+              <p className="pb-3 800px:pb-1 text-black  font-Poppins">
                 • Apoyo constante para todas tus preguntas
               </p>
             </div>

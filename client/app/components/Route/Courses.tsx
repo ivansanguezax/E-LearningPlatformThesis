@@ -24,7 +24,7 @@ const Courses = (props: Props) => {
           height={20}
         />
       </div>
-        <h1 className="text-center font-Poppins text-[25px] leading-[35px] sm:text-3xl lg:text-4xl dark:text-white 800px:!leading-[60px] text-[#000] font-[700] tracking-tight">
+        <h1 className="text-center font-Poppins text-[25px] leading-[35px] sm:text-3xl lg:text-4xl  800px:!leading-[60px] text-[#000] font-[700] tracking-tight">
           ¡Explora y Aprende! <span className="text-gradient">Descubre tus Cursos Increíbles</span>
         </h1>
         <br />

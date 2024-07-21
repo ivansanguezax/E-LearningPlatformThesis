@@ -130,7 +130,7 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
           />
         </div>
         <br />
-        <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">
+        <h5 className="text-center pt-4 font-Poppins text-[14px] text-black ">
           O ingresa con
         </h5>
         <div className="flex items-center justify-center my-3 p-3 bg-slate-200 rounded-lg">

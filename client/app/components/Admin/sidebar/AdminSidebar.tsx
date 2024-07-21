@@ -21,7 +21,6 @@ import avatarDefault from "../../../../public/assets/avatar.png";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
-import { useTheme } from "next-themes";
 
 interface itemProps {
   title: string;
@@ -49,14 +48,6 @@ const Sidebar = () => {
   const [logout, setlogout] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
-
-  useEffect(() => setMounted(true), []);
-
-  if (!mounted) {
-    return null;
-  }
 
   const logoutHandler = () => {
     setlogout(true);
@@ -66,9 +57,7 @@ const Sidebar = () => {
     <Box
       sx={{
         "& .pro-sidebar-inner": {
-          background: `${
-            theme === "dark" ? "#111C43 !important" : "#fff !important"
-          }`,
+          background: "#fff !important",
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
@@ -84,10 +73,10 @@ const Sidebar = () => {
           opacity: 1,
         },
         "& .pro-menu-item": {
-          color: `${theme !== "dark" && "#000"}`,
+          color: "#000",
         },
       }}
-      className="!bg-white dark:bg-[#111C43]"
+      className="!bg-white"
     >
       <ProSidebar
         collapsed={isCollapsed}
@@ -117,12 +106,12 @@ const Sidebar = () => {
                 ml="15px"
               >
                <Link href="/" className="block">
-               <h3 className="text-[25px] font-Poppins uppercase dark:text-white text-black">
+               <h3 className="text-[25px] font-Poppins uppercase text-black">
                   ELearning
                 </h3>
                </Link>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)} className="inline-block">
-                  <ArrowBackIosIcon className="text-black dark:text-[#ffffffc1]" />
+                  <ArrowBackIosIcon className="text-black" />
                 </IconButton>
               </Box>
             )}
@@ -146,7 +135,7 @@ const Sidebar = () => {
               <Box textAlign="center">
                 <Typography
                   variant="h4"
-                  className="!text-[20px] text-black dark:text-[#ffffffc1]"
+                  className="!text-[20px] text-black"
                   sx={{ m: "10px 0 0 0" }}
                 >
                   {user?.name}
@@ -154,7 +143,7 @@ const Sidebar = () => {
                 <Typography
                   variant="h6"
                   sx={{ m: "10px 0 0 0" }}
-                  className="!text-[20px] text-black dark:text-[#ffffffc1] capitalize"
+                  className="!text-[20px] text-black capitalize"
                 >
                   - {user?.role}
                 </Typography>
@@ -174,7 +163,7 @@ const Sidebar = () => {
             <Typography
               variant="h5"
               sx={{ m: "15px 0 5px 25px" }}
-              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+              className="!text-[18px] text-black capitalize !font-[400]"
             >
               {!isCollapsed && "Datos"}
             </Typography>
@@ -196,7 +185,7 @@ const Sidebar = () => {
 
             <Typography
               variant="h5"
-              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+              className="!text-[18px] text-black capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}
             >
               {!isCollapsed && "Contenido"}
@@ -218,7 +207,7 @@ const Sidebar = () => {
 
             <Typography
               variant="h5"
-              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+              className="!text-[18px] text-black capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}
             >
               {!isCollapsed && "Control de Profesores"}
@@ -233,7 +222,7 @@ const Sidebar = () => {
 
             <Typography
               variant="h6"
-              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+              className="!text-[18px] text-black capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}
             >
               {!isCollapsed && "Analíticas"}
@@ -242,13 +231,6 @@ const Sidebar = () => {
               title="Data de Cursos"
               to="/admin/courses-analytics"
               icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Data de Inscripciones"
-              to="/admin/enrollments-analytics"
-              icon={<MapOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -263,7 +245,7 @@ const Sidebar = () => {
 
             <Typography
               variant="h6"
-              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+              className="!text-[18px] text-black capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}
             >
               {!isCollapsed && "Extras"}

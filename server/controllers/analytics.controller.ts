@@ -39,7 +39,7 @@ export const getCoursesAnalytics = CatchAsyncError(
 );
 
 // get order analytics --- only for admin
-export const getOrderAnalytics = CatchAsyncError(
+export const getEnrollmentsAnalytics = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const orders = await generateLast12MothsData(OrderModel);

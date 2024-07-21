@@ -150,7 +150,7 @@ const CourseContent: FC<Props> = ({
                           item.videoSection === "Untitled Section"
                             ? "w-[170px]"
                             : "w-min"
-                        } font-Poppins cursor-pointer dark:text-white text-black bg-transparent outline-none`}
+                        } font-Poppins cursor-pointer  text-black bg-transparent outline-none`}
                         value={item.videoSection}
                         onChange={(e) => {
                           const updatedData = [...courseContentData];
@@ -158,7 +158,7 @@ const CourseContent: FC<Props> = ({
                           setCourseContentData(updatedData);
                         }}
                       />
-                      <BsPencil className="cursor-pointer dark:text-white text-black" />
+                      <BsPencil className="cursor-pointer  text-black" />
                     </div>
                     <br />
                   </>
@@ -168,7 +168,7 @@ const CourseContent: FC<Props> = ({
                   {isCollapsed[index] ? (
                     <>
                       {item.title ? (
-                        <p className="font-Poppins dark:text-white text-black">
+                        <p className="font-Poppins  text-black">
                           {index + 1}. {item.title}
                         </p>
                       ) : (
@@ -182,7 +182,7 @@ const CourseContent: FC<Props> = ({
                   {/* // arrow button for collasped video content */}
                   <div className="flex items-center">
                     <AiOutlineDelete
-                      className={`dark:text-white text-[20px] mr-2 text-black ${
+                      className={` text-[20px] mr-2 text-black ${
                         index > 0 ? "cursor-pointer" : "cursor-no-drop"
                       }`}
                       onClick={() => {
@@ -195,7 +195,7 @@ const CourseContent: FC<Props> = ({
                     />
                     <MdOutlineKeyboardArrowDown
                       fontSize="large"
-                      className="dark:text-white text-black"
+                      className=" text-black"
                       style={{
                         transform: isCollapsed[index]
                           ? "rotate(180deg)"
@@ -278,7 +278,7 @@ const CourseContent: FC<Props> = ({
                               linkIndex === 0
                                 ? "cursor-no-drop"
                                 : "cursor-pointer"
-                            } text-black dark:text-white text-[20px]`}
+                            } text-black  text-[20px]`}
                             onClick={() =>
                               linkIndex === 0
                                 ? null

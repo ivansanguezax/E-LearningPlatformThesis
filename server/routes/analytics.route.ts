@@ -2,7 +2,7 @@ import express from "express";
 import { authorizeRoles, isAutheticated } from "../middleware/auth";
 import {
   getCoursesAnalytics,
-  getOrderAnalytics,
+  getEnrollmentsAnalytics,
   getUsersAnalytics,
 } from "../controllers/analytics.controller";
 const analyticsRouter = express.Router();
@@ -18,7 +18,7 @@ analyticsRouter.get(
   "/get-enrollments-analytics",
   isAutheticated,
   authorizeRoles("admin"),
-  getOrderAnalytics
+  getEnrollmentsAnalytics
 );
 
 analyticsRouter.get(

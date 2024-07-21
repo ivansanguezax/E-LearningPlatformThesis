@@ -14,7 +14,7 @@ const CourseCard: FC<Props> = ({ item, isProfile }) => {
     <Link
       href={!isProfile ? `/course/${item._id}` : `course-access/${item._id}`}
     >
-      <div className="w-full !bg-white min-h-[25vh] backdrop-blur border-2 border-gray-900 shadow-[0px_5px_0px_0px_#18191F] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3 dark:shadow-inner">
+      <div className="w-full !bg-white min-h-[25vh] backdrop-blur border-2 border-gray-900 shadow-[0px_5px_0px_0px_#18191F] border-[#00000015] rounded-lg p-3">
         <Image
           src={item.thumbnail.url}
           width={500}
@@ -24,12 +24,12 @@ const CourseCard: FC<Props> = ({ item, isProfile }) => {
           alt=""
         />
         <br />
-        <h1 className="font-Poppins text-[16px] font-semibold text-black dark:text-[#fff]">
+        <h1 className="font-Poppins text-[16px] font-semibold text-black">
           {item.name}
         </h1>
         <div className="w-full flex items-center justify-between pt-2">
           <h5
-            className={`dark:text-[#fff] text-gray-400 font-Poppins ${
+            className={` text-gray-400 font-Poppins ${
               isProfile && "hidden 800px:inline"
             }`}
           >
@@ -38,14 +38,14 @@ const CourseCard: FC<Props> = ({ item, isProfile }) => {
         </div>
         <div className="w-full flex items-center justify-between pt-3">
           <div className="flex items-center">
-            <AiOutlineClockCircle size={20} className="text-black dark:text-[#fff]" />
-            <h3 className="text-black dark:text-[#fff] ml-2">
+            <AiOutlineClockCircle size={20} className="text-black " />
+            <h3 className="text-black ml-2">
               {item.duration} minutos
             </h3>
           </div>
           <div className="flex items-center pb-3">
-            <AiOutlineUnorderedList size={20} className="text-black dark:text-[#fff]" />
-            <h5 className="pl-2 text-black dark:text-[#fff]">
+            <AiOutlineUnorderedList size={20} className="text-black" />
+            <h5 className="pl-2 text-black">
               {item.courseData?.length} Clases
             </h5>
           </div>

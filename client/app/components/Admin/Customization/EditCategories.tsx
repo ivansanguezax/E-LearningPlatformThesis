@@ -96,7 +96,7 @@ import {
                         placeholder="ingrese el nombre de la categoría"
                       />
                       <AiOutlineDelete
-                        className="dark:text-white text-black text-[18px] cursor-pointer"
+                        className=" text-black text-[18px] cursor-pointer"
                         onClick={() => {
                           setCategories((prevCategory: any) =>
                             prevCategory.filter((i: any) => i._id !== item._id)
@@ -111,14 +111,14 @@ import {
             <br />
             <div className="w-full flex justify-center">
               <IoMdAddCircleOutline
-                className="dark:text-white text-black text-[25px] cursor-pointer"
+                className=" text-black text-[25px] cursor-pointer"
                 onClick={newCategoriesHandler}
               />
             </div>
             <div
               className={`${
                 styles.button
-              } !w-[100px] !min-h-[40px] !h-[40px] dark:text-white text-black bg-[#cccccc34] 
+              } !w-[100px] !min-h-[40px] !h-[40px]  text-black bg-[#cccccc34] 
               ${
                 areCategoriesUnchanged(data.layout.categories, categories) ||
                 isAnyCategoryTitleEmpty(categories)
