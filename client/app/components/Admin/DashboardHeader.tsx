@@ -1,5 +1,4 @@
 "use client";
-import { ThemeSwitcher } from "@/app/utils/ThemeSwitcher";
 import {
   useGetAllNotificationsQuery,
   useUpdateNotificationStatusMutation,
@@ -50,7 +49,6 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
 
   return (
     <div className="w-full flex items-center justify-end p-6 fixed top-5 right-0 z-[9999999]">
-      <ThemeSwitcher />
       <div
         className="relative cursor-pointer m-2"
         onClick={() => setOpen(!open)}

@@ -15,7 +15,7 @@ const Courses = (props: Props) => {
 
   return (
     <div>
-      <div className={`w-[90%] 800px:w-[80%] m-auto h-screen mt-7`}>
+      <div className={`w-[90%] 800px:w-[80%] m-auto h-full mt-7`}>
       <div className="flex justify-center mb-5">
         <Image
           src="https://res.cloudinary.com/dfgjenml4/image/upload/v1716166071/aixmqb6gmj7exwr4sagx.png"
