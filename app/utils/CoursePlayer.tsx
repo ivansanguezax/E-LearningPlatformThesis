@@ -11,16 +11,28 @@ const CoursePlayer: FC<Props> = ({ videoUrl }) => {
     otp: "",
     playbackInfo: "",
   });
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    axios
-      .post("http://localhost:8000/api/v1/getVdoCipherOTP", {
-        videoId: videoUrl,
-      })
-      .then((res) => {
+    const fetchVideoData = async () => {
+      try {
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URI}getVdoCipherOTP`, {
+          videoId: videoUrl,
+        });
         setVideoData(res.data);
-      });
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching video data:", err);
+        setError("Error al cargar el video. Por favor, inténtalo de nuevo más tarde.");
+      }
+    };
+
+    fetchVideoData();
   }, [videoUrl]);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div style={{position:"relative",paddingTop:"56.25%",overflow:"hidden"}}>
