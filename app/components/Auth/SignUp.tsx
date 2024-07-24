@@ -42,7 +42,7 @@ const Signup: FC<Props> = ({ setRoute }) => {
         toast.error(errorData.data.message);
       }
     }
-  }, [isSuccess, error]);
+  }, [isSuccess, error, data, setRoute]);
 
   const formik = useFormik({
     initialValues: { name: "", email: "", password: "" },

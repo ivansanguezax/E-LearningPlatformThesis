@@ -35,7 +35,7 @@ const Verification: FC<Props> = ({ setRoute }) => {
         console.log("Ocurrió un error:", error);
       }
     }
-  }, [isSuccess, error]);
+  }, [isSuccess, error, setRoute]);
 
   const inputRefs = [
     useRef<HTMLInputElement>(null),

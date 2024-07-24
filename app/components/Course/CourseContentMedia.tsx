@@ -170,8 +170,14 @@ const CourseContentMedia = ({
     reviewError,
     replySuccess,
     replyError,
+    activeVideo,
+    course?.name,
+    courseRefetch,
+    data,
+    refetch,
+    user._id,
+    user.role
   ]);
-
   const handleAnswerSubmit = () => {
     addAnswerInQuestion({
       answer,

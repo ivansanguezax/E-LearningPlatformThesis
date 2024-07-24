@@ -63,7 +63,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
         setLogout(true);
       }
     }
-  }, [data, userData, isLoading]);
+  }, [data, userData, isLoading, isSuccess, error, refetch, socialAuth]);
 
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {
@@ -93,15 +93,18 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
             <div className="w-[95%] 800px:w-[92%] m-auto py-1 h-full ">
               <div className="w-full h-[80px] flex items-center justify-between p-3">
                 <div className="flex items-center">
-                  <img
+                  <Image
                     src="https://res.cloudinary.com/dfgjenml4/image/upload/v1716154730/nz1wr4f1skyonugvrufh.png"
                     alt="Owl"
-                    className="w-10 h-auto"
+                    width={40}
+                    height={10}
                   />
                   <Link href="/">
-                    <img
+                    <Image
                       src="https://res.cloudinary.com/dfgjenml4/image/upload/v1716154730/qghejkwqbzybrjxpkixj.png"
                       alt="AruQhana"
+                      width={100} // Specify width
+                      height={50} // Specify height
                       className=""
                     />
                   </Link>
