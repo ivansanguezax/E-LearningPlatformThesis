@@ -54,7 +54,6 @@ const CoursePreview: FC<Props> = ({
 
         <p className="pb-1 !text-black font-Poppins">• Material de aprendizaje divertido incluido</p>
         <p className="pb-1 !text-black font-Poppins">• Acceso ilimitado para repasar siempre que quieras</p>
-        <p className="pb-1 !text-black font-Poppins">• Certificado especial de "Aventurero del Aprendizaje" al finalizar</p>
         <p className="pb-3 800px:pb-1 !text-black font-Poppins">• Apoyo constante para todas tus preguntas</p>
       </div>
       <div className="mt-5 w-full !text-black ">
