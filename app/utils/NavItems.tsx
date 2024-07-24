@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { HomeIcon, AcademicCapIcon, BookOpenIcon, UserIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 
 export const navItemsData = [
   {
@@ -53,7 +54,7 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
         <div className="800px:hidden mt-5">
           <div className="w-full py-6 flex justify-center">
             <Link href="/">
-              <img
+              <Image
                 src="https://res.cloudinary.com/dfgjenml4/image/upload/v1716154730/qghejkwqbzybrjxpkixj.png"
                 alt="AruQhana"
                 className=""
