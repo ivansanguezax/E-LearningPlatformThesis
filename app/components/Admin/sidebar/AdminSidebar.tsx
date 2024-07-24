@@ -1,8 +1,7 @@
 "use client";
-import { FC, useEffect, useState } from "react";
-import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { FC, useState } from "react";
+import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography } from "@mui/material";
-import "react-pro-sidebar/dist/css/styles.css";
 import {
   HomeOutlinedIcon,
   ArrowForwardIosIcon,
@@ -21,81 +20,89 @@ import avatarDefault from "../../../../public/assets/avatar.png";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from 'next/navigation';
 
-interface itemProps {
+interface ItemProps {
   title: string;
   to: string;
   icon: JSX.Element;
   selected: string;
-  setSelected: any;
+  setSelected: (title: string) => void;
 }
 
-const Item: FC<itemProps> = ({ title, to, icon, selected, setSelected }) => {
+const Item: FC<ItemProps> = ({ title, to, icon, selected, setSelected }) => {
+  const router = useRouter();
   return (
     <MenuItem
       active={selected === title}
-      onClick={() => setSelected(title)}
+      onClick={() => {
+        setSelected(title);
+        router.push(to);
+      }}
       icon={icon}
     >
       <Typography className="!text-[16px] !font-Poppins">{title}</Typography>
-      <Link href={to} />
     </MenuItem>
   );
 };
 
-const Sidebar = () => {
+const SidebarComponent = () => {
+  const router = useRouter();
   const { user } = useSelector((state: any) => state.auth);
-  const [logout, setlogout] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
   const logoutHandler = () => {
-    setlogout(true);
+    router.push('/');
   };
 
   return (
     <Box
       sx={{
-        "& .pro-sidebar-inner": {
+        "& .ps-sidebar-root": {
           background: "#fff !important",
+          border: "none",
         },
-        "& .pro-icon-wrapper": {
+        "& .ps-menu-button:hover": {
           backgroundColor: "transparent !important",
-        },
-        "& .pro-inner-item:hover": {
           color: "#868dfb !important",
         },
-        "& .pro-menu-item.active": {
+        "& .ps-menu-button.ps-active": {
           color: "#6870fa !important",
         },
-        "& .pro-inner-item": {
+        "& .ps-menu-button": {
           padding: "5px 35px 5px 20px !important",
-          opacity: 1,
+          color: "#000",
         },
-        "& .pro-menu-item": {
+        "& .ps-sidebar-container": {
+          backgroundColor: "#fff !important",
+        },
+        "& .ps-menu-icon": {
+          backgroundColor: "transparent !important",
+        },
+        "& .ps-menu-label": {
           color: "#000",
         },
       }}
       className="!bg-white"
     >
-      <ProSidebar
+      <Sidebar
         collapsed={isCollapsed}
         style={{
           position: "fixed",
           top: 0,
           left: 0,
           height: "100vh",
-          zIndex: 99999999999999,
-          width: isCollapsed ? "0%" : "16%",
+          width: isCollapsed ? "80px" : "250px",
         }}
       >
-        <Menu iconShape="square">
-          {/* LOGO AND MENU ICON */}
+        <Menu>
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
-            icon={isCollapsed ? <ArrowForwardIosIcon /> : undefined}
+            icon={isCollapsed ? <ArrowForwardIosIcon /> : <ArrowBackIosIcon />}
             style={{
               margin: "10px 0 20px 0",
+              color: "#000",
             }}
           >
             {!isCollapsed && (
@@ -105,14 +112,12 @@ const Sidebar = () => {
                 alignItems="center"
                 ml="15px"
               >
-               <Link href="/" className="block">
-               <h3 className="text-[25px] font-Poppins uppercase text-black">
+                <Typography
+                  variant="h3"
+                  className="text-[25px] font-Poppins uppercase text-black"
+                >
                   ELearning
-                </h3>
-               </Link>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)} className="inline-block">
-                  <ArrowBackIosIcon className="text-black" />
-                </IconButton>
+                </Typography>
               </Box>
             )}
           </MenuItem>
@@ -124,7 +129,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width={100}
                   height={100}
-                  src={user.avatar ? user.avatar.url : avatarDefault}
+                  src={user?.avatar ? user.avatar.url : avatarDefault}
                   style={{
                     cursor: "pointer",
                     borderRadius: "50%",
@@ -250,20 +255,17 @@ const Sidebar = () => {
             >
               {!isCollapsed && "Extras"}
             </Typography>
-            <div onClick={logoutHandler}>
-              <Item
-                title="Salir"
-                to="/"
-                icon={<ExitToAppIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-            </div>
+            <MenuItem
+              onClick={logoutHandler}
+              icon={<ExitToAppIcon />}
+            >
+              <Typography className="!text-[16px] !font-Poppins">Salir</Typography>
+            </MenuItem>
           </Box>
         </Menu>
-      </ProSidebar>
+      </Sidebar>
     </Box>
   );
 };
 
-export default Sidebar;
+export default SidebarComponent;
